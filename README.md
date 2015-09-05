@@ -1,2 +1,2 @@
-# txtedo
+# TxtedO
 Smart, slick and black
