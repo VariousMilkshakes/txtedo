@@ -22,6 +22,8 @@ namespace txtedo
     {
         public MainWindow()
         {
+            Dictionary commandList = new Dictionary();
+
             InitializeComponent();
         }
     }
