@@ -8,9 +8,19 @@ namespace txtedo.modules
 {
     class Explorer : IModule
     {
-        public Command register ()
+        public Explorer()
         {
+            //Runs when explorer is loaded
+        }
+
+        public Command register(Dictionary dictionary)
+        {
+            //Invoked by dictionary after loaded
+            Console.WriteLine("Explorer Loaded");
+
             Command masterCommand = new Command("file-explore", "Navigate to a file.");
+
+            dictionary.AddCommand(masterCommand);
 
             return masterCommand;
         }
