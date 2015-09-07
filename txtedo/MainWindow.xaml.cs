@@ -20,11 +20,26 @@ namespace txtedo
     /// </summary>
     public partial class MainWindow : Window
     {
+        public double pageHeight;
+        public double pageWidth;
+
         public MainWindow()
         {
             Dictionary commandList = new Dictionary();
 
             InitializeComponent();
+
+            pageWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            Console.WriteLine(pageWidth);
+            pageWidth -= Width;
+            pageHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            Console.WriteLine(pageHeight);
+            pageHeight -= Height + 40;
+
+            Top = pageHeight;
+            Left = pageWidth;
+
+            Console.WriteLine("{0} : {1}", Top, Left);
         }
     }
 }

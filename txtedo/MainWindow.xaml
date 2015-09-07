@@ -1,9 +1,9 @@
 ﻿<Window x:Class="txtedo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="50" Width="400" ResizeMode="NoResize" WindowStyle="None" Background="Black">
-    <Grid x:Name="txtedoWindow">
-        <TextBox HorizontalAlignment="Left" Height="30" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="380" Background="#FF474747" Foreground="White" BorderBrush="Black"/>
-
+        Title="MainWindow" Height="50" Width="400" ResizeMode="NoResize" WindowStyle="None" Background="Black" Top="100" Left="100">
+    <Grid x:Name="txtedoWindow" Height="50" VerticalAlignment="Bottom">
+        <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Width="345" Background="#FF474747" Foreground="White" BorderBrush="Black" FontFamily="Hack" FontSize="35" SelectionBrush="#FF474747" Height="50" VerticalAlignment="Bottom"/>
+        <Button Content="❯" HorizontalAlignment="Left" Margin="350,0,0,0" Width="50" Height="50" Background="#FF474747" BorderBrush="#FF474747" Foreground="White" FontSize="22" FontFamily="Hack" VerticalAlignment="Bottom" RenderTransformOrigin="0.467,-0.1" BorderThickness="1,1,1,1" ClipToBounds="False"/>
     </Grid>
 </Window>
