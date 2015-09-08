@@ -8,6 +8,7 @@ namespace txtedo
 {
     interface IModule
     {
-        Command register(Dictionary dictionary);
+        void register(Dictionary dictionary, Object rules);
+        void tasker(string task);
     }
 }

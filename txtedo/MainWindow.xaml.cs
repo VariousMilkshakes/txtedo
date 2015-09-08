@@ -22,13 +22,21 @@ namespace txtedo
     {
         public double pageHeight;
         public double pageWidth;
+        public Dictionary commandList;
 
         public MainWindow()
         {
-            Dictionary commandList = new Dictionary();
+            commandList = new Dictionary();
 
             InitializeComponent();
 
+            LockPosition();
+        }
+
+        //Lock to bottom left
+        //TODO: Change in settings where to lock to
+        public void LockPosition()
+        {
             pageWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
             Console.WriteLine(pageWidth);
             pageWidth -= Width;

@@ -9,7 +9,7 @@ namespace txtedo
 {
     class Dictionary
     {
-        private List<Command> commands = new List<Command>();
+        public List<Command> commands = new List<Command>();
 
         public Dictionary ()
         {
@@ -27,7 +27,7 @@ namespace txtedo
                 MethodInfo moduleInfo = commandModule.GetMethod("register");
 
                 //Pass this dictionary to reg method
-                object[] parametersArray = new object[] {this};
+                object[] parametersArray = new object[] {this, module};
                 //Invoke reg method
                 moduleInfo.Invoke(module, parametersArray);
             }
