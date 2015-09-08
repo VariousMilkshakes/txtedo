@@ -22,15 +22,19 @@ namespace txtedo
     {
         public double pageHeight;
         public double pageWidth;
-        public Dictionary commandList;
+        public List<Command> masterList;
 
         public MainWindow()
         {
-            commandList = new Dictionary();
+            Dictionary commandList = new Dictionary();
+            masterList = commandList.commands;
 
             InitializeComponent();
 
             LockPosition();
+
+            Object testCommand = commandList.commands[0].commandRules;
+            InitiateModuleCommand.Start(testCommand);
         }
 
         //Lock to bottom left

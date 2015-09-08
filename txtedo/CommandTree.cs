@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace txtedo
 {
-    class Command
+    public class Command
     {
         //Command to type
         private string command;
@@ -43,7 +43,7 @@ namespace txtedo
     public class InitiateModuleCommand
     {
         //Use to run rules associated with command
-        public void Start(Object command)
+        public static void Start(Object command)
         {
             //Functions in Module interface
             var commandModule = typeof(IModule);
