@@ -104,7 +104,7 @@ namespace txtedo
             {
                 try
                 {
-                    var pyRuntime = Python.CreateRuntime();
+                    ScriptRuntime pyRuntime = Python.CreateRuntime();
                     //Set Python variables
                     ScriptScope scope = pyRuntime.CreateScope();
                     scope.SetVariable("userInput", searchQuery);

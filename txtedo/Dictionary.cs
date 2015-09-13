@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
+using System.IO;
+
+using IronPython.Hosting;
+using Microsoft.Scripting;
+using Microsoft.Scripting.Hosting;
 
 namespace txtedo
 {
@@ -13,24 +17,65 @@ namespace txtedo
 
         public Dictionary ()
         {
-            //Get interface ALL modules inheirt from
-            var commandModule = typeof(IModule);
-            //Gets all classes that inheirt from the interface
-            var modules = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes()).Where(p => p.IsClass && commandModule.IsAssignableFrom(p)).ToArray();
-            
-            for (int i = 0; i < modules.Length; i++)
+            //Get all python modules in folder
+            string[] fileNames = Directory.GetFiles("modules/", "*.py");
+            Console.WriteLine("FILES:");
+            Console.WriteLine(fileNames[0]);
+
+            List<dynamic> modules = new List<dynamic>();
+
+            //Start iron python
+            ScriptRuntime ipy = Python.CreateRuntime();
+            //TODO: Set variable scope when module is called=
+
+            //Create a command for each module
+            foreach (string file in fileNames)
             {
-                Console.WriteLine("Loading Module");
-                //Load instance of module
-                var module = Activator.CreateInstance(modules[i]);
-                //Get registration method
-                MethodInfo moduleInfo = commandModule.GetMethod("register");
+                //New instance
+                dynamic module = ipy.UseFile(file);
+
+                //Run module setup
+                try
+                {
+                    //Every module must have start function
+                    string[] info = module.Start();
+
+                    if (info[0] != "")
+                    {
+                        if (info[1] == "")
+                        {
+                            info[1] = info[0];
+                        }
+
+                        Command newCommand = new Command(module, info[0], info[1]);
+                        AddCommand(newCommand);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                
+            }
+
+            //Get interface ALL modules inheirt from
+            //var commandModule = typeof(IModule);
+            //Gets all classes that inheirt from the interface
+            //var modules = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes()).Where(p => p.IsClass && commandModule.IsAssignableFrom(p)).ToArray();
+            
+            //for (int i = 0; i < modules.Length; i++)
+            //{
+             //   Console.WriteLine("Loading Module");
+             //   //Load instance of module
+             //   var module = Activator.CreateInstance(modules[i]);
+              //  //Get registration method
+              //  MethodInfo moduleInfo = commandModule.GetMethod("register");
 
                 //Pass this dictionary to reg method
-                object[] parametersArray = new object[] {this, module};
+               // object[] parametersArray = new object[] {this, module};
                 //Invoke reg method
-                moduleInfo.Invoke(module, parametersArray);
-            }
+               // moduleInfo.Invoke(module, parametersArray);
+            //}
         }
 
         public void AddCommand (Command command)

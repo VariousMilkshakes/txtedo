@@ -16,9 +16,9 @@ namespace txtedo
         public string commandTip;
         public List<Command> childCommands = new List<Command>();
         //Controller to invoke rules from
-        public Object commandRules;
+        public dynamic module;
 
-        public Command (Object rules, string name, string tip = "")
+        public Command (dynamic script, string name, string tip = "")
         {
             this.command = name;
 
@@ -30,7 +30,7 @@ namespace txtedo
 
             this.commandTip = tip;
 
-            this.commandRules = rules;
+            this.module = script;
         }
 
         //Add child command to command
