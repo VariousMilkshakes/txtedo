@@ -38,7 +38,7 @@ namespace txtedo
                 try
                 {
                     //Every module must have start function
-                    string[] info = module.Start();
+                    var info = module.Start();
 
                     if (info[0] != "")
                     {
@@ -49,6 +49,8 @@ namespace txtedo
 
                         Command newCommand = new Command(module, info[0], info[1]);
                         AddCommand(newCommand);
+
+                        Console.WriteLine("File: {0}, {1} now imported!", file, info[0]);
                     }
                 }
                 catch (Exception ex)
