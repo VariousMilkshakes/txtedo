@@ -15,6 +15,20 @@ namespace txtedo
     {
         public List<Command> commands = new List<Command>();
 
+        public class YoungChild
+        {
+            public Command me;
+            public string parentCommand;
+            public int at;
+
+            public YoungChild (string parent, Command child, int index)
+            {
+                this.me = child;
+                this.parentCommand = parent;
+                this.at = index;
+            }
+        }
+
         public Dictionary ()
         {
             //Get all python modules in folder
@@ -26,9 +40,14 @@ namespace txtedo
 
             //Start iron python
             ScriptRuntime ipy = Python.CreateRuntime();
-            //TODO: Set variable scope when module is called=
+            //TODO: Set variable scope when module is called
+
+            //Command[] commandHolder = new Command[fileNames.Length];
+            List<Command> commandHolder = new List<Command>();
+            List<YoungChild> lostChildren = new List<YoungChild>();
 
             //Create a command for each module
+            int chIndex = 0;
             foreach (string file in fileNames)
             {
                 //New instance
@@ -38,8 +57,11 @@ namespace txtedo
                 try
                 {
                     //Every module must have start function
-                    var info = module.Start();
+                    var info = module.Start(); 
 
+                    //Command for module
+                    Command newCommand;
+                    
                     if (info[0] != "")
                     {
                         if (info[1] == "")
@@ -47,17 +69,58 @@ namespace txtedo
                             info[1] = info[0];
                         }
 
-                        Command newCommand = new Command(module, info[0], info[1]);
-                        AddCommand(newCommand);
+                        newCommand = new Command(module, info[0], info[1]);
 
                         Console.WriteLine("File: {0}, {1} now imported!", file, info[0]);
+
+                        if (info.Count == 3)
+                        {
+                            YoungChild lostChild = new YoungChild(info[2], newCommand, lostChildren.Count);
+                            lostChildren.Add(lostChild);
+                        }
+                        else
+                        {
+                            commandHolder.Add(newCommand);
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
                 }
-                
+
+                chIndex++;
+            }
+
+            bool AllChildrenAccountedFor = false;
+
+            while (!AllChildrenAccountedFor)
+            {
+                if (lostChildren.Count > 0)
+                {
+                    for (int i = 0; i < lostChildren.Count; i++)
+                    {
+                        YoungChild lostChild = lostChildren[i];
+
+                        string targetParent = lostChild.parentCommand;
+
+                        for (int c = 0; c < commandHolder.Count; c++)
+                        {
+                            Command parent = commandHolder[c];
+
+                            if (parent.command == targetParent)
+                            {
+                                parent.NewChild(lostChild.me);
+                                lostChildren.RemoveAt(lostChild.at);
+                                Console.WriteLine(parent.command);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    AllChildrenAccountedFor = true;
+                }
             }
 
             //Get interface ALL modules inheirt from

@@ -5,5 +5,6 @@
     <Grid x:Name="txtedoWindow" Height="50" VerticalAlignment="Bottom">
         <TextBox x:Name="commandBox" HorizontalAlignment="Left" TextWrapping="Wrap" Width="345" Background="#FF474747" Foreground="White" BorderBrush="#FF474747" FontFamily="Hack" FontSize="35" SelectionBrush="#FF474747" Height="50" VerticalAlignment="Bottom"/>
         <Button Content="❯" HorizontalAlignment="Left" Margin="350,0,0,0" Width="50" Height="50" Background="#FF474747" BorderBrush="#FF474747" Foreground="White" FontSize="22" FontFamily="Hack" VerticalAlignment="Bottom" RenderTransformOrigin="0.467,-0.1" BorderThickness="1,1,1,1" ClipToBounds="False" Click="Button_Click"/>
+        <Label x:Name="PromptLabel" Content="{Binding Path=Prompt}" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="345" Foreground="Gray" FontFamily="Hack" FontSize="35"/>
     </Grid>
 </Window>
