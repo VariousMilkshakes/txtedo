@@ -97,5 +97,29 @@ namespace txtedo
         {
             
         }
+
+        private void RunSearch(string searchQuery)
+        {
+            if (searchQuery != "")
+            {
+                try
+                {
+                    var pyRuntime = Python.CreateRuntime();
+                    //Set Python variables
+                    ScriptScope scope = pyRuntime.CreateScope();
+                    scope.SetVariable("userInput", searchQuery);
+
+                    //Use Lib
+                    //pyRuntime.ImportModule(@"modules/Lib");
+
+                    dynamic script = pyRuntime.UseFile("modules/Explorer.py");
+                    script.Run(searchQuery);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
     }
 }
