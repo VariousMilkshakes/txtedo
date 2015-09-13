@@ -11,9 +11,9 @@ namespace txtedo
     public class Command
     {
         //Command to type
-        private string command;
+        public string command;
         //Tip displayed for user
-        private string commandTip;
+        public string commandTip;
         public List<Command> childCommands = new List<Command>();
         //Controller to invoke rules from
         public Object commandRules;
@@ -43,7 +43,7 @@ namespace txtedo
     public class InitiateModuleCommand
     {
         //Use to run rules associated with command
-        public static void Start(Object command)
+        public static void Start(Object command, string userOptions)
         {
             //Functions in Module interface
             var commandModule = typeof(IModule);
@@ -51,7 +51,7 @@ namespace txtedo
             MethodInfo tasker = commandModule.GetMethod("tasker");
 
             //Options for task; not sure what to do with this yet
-            object[] commandOptions = new object[] { "WOOP" };
+            object[] commandOptions = new object[] { "WOOP", userOptions };
 
             //Invoke tasker function
             tasker.Invoke(command, commandOptions);

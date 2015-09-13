@@ -13,6 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
+using System.IO;
+
 namespace txtedo
 {
     /// <summary>
@@ -23,6 +27,7 @@ namespace txtedo
         public double pageHeight;
         public double pageWidth;
         public List<Command> masterList;
+        private bool visibleFeedback = false;
 
         public MainWindow()
         {
@@ -33,8 +38,8 @@ namespace txtedo
 
             LockPosition();
 
-            Object testCommand = commandList.commands[0].commandRules;
-            InitiateModuleCommand.Start(testCommand);
+            //ToggleFeedback();
+            UpdateFeedback();
         }
 
         //Lock to bottom left
@@ -52,6 +57,45 @@ namespace txtedo
             Left = pageWidth;
 
             Console.WriteLine("{0} : {1}", Top, Left);
+        }
+
+        //Toggle feedback box
+        public void ToggleFeedback()
+        {
+            const double compactHeight = 50.0;
+            const double expandedHeight = 300.0;
+
+            if (visibleFeedback)
+            {
+                Height = compactHeight;
+                visibleFeedback = false;
+            }
+            else
+            {
+                Height = expandedHeight;
+                visibleFeedback = true;
+            }
+        }
+
+        //Update feedback box
+        public void UpdateFeedback()
+        {
+            var feedbackList = new List<FeedbackElement>();
+            
+            foreach (Command command in masterList) {
+                feedbackList.Add(new FeedbackElement {
+                    Header = command.command,
+                    Descriptor = command.commandTip
+                });
+            }
+
+            //CollectionViewSource feedbackViewSource = (CollectionViewSource)(FindResource("feedbackData"));
+            //feedbackViewSource.Source = feedbackList;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

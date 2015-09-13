@@ -9,6 +9,6 @@ namespace txtedo
     interface IModule
     {
         void register(Dictionary dictionary, Object rules);
-        void tasker(string task);
+        void tasker(string task, string options);
     }
 }
