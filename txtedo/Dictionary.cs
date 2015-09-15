@@ -14,6 +14,7 @@ namespace txtedo
     class Dictionary
     {
         public List<Command> commands = new List<Command>();
+        public string[] commandRef;
 
         public class YoungChild
         {
@@ -38,8 +39,18 @@ namespace txtedo
 
             List<dynamic> modules = new List<dynamic>();
 
+            //Create python engine
+            ScriptEngine python = Python.CreateEngine();
+            //Python module paths
+            ICollection<string> paths = python.GetSearchPaths();
+            //Add stdlib
+            paths.Add("modules/Lib");
+            python.SetSearchPaths(paths);
+
             //Start iron python
-            ScriptRuntime ipy = Python.CreateRuntime();
+            ScriptRuntime ipy = python.Runtime;
+            
+
             //TODO: Set variable scope when module is called
 
             //Command[] commandHolder = new Command[fileNames.Length];
@@ -50,43 +61,49 @@ namespace txtedo
             int chIndex = 0;
             foreach (string file in fileNames)
             {
-                //New instance
-                dynamic module = ipy.UseFile(file);
-
                 //Run module setup
                 try
                 {
+                    //New instance
+                    dynamic module = ipy.UseFile(file);
+
                     //Every module must have start function
                     var info = module.Start(); 
 
                     //Command for module
                     Command newCommand;
                     
+                    //Check if python had provided info
                     if (info[0] != "")
                     {
                         if (info[1] == "")
                         {
+                            //Fallback to command name as tool tip
                             info[1] = info[0];
                         }
 
+                        //Create command for module
                         newCommand = new Command(module, info[0], info[1]);
 
                         Console.WriteLine("File: {0}, {1} now imported!", file, info[0]);
 
+                        //If module has a parent
                         if (info.Count == 3)
                         {
+                            //Turn command into child, without parent
                             YoungChild lostChild = new YoungChild(info[2], newCommand, lostChildren.Count);
                             lostChildren.Add(lostChild);
                         }
                         else
                         {
+                            //Add parents to holder
                             commandHolder.Add(newCommand);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    Console.WriteLine("Problem creating python module: {0}", ex);
                 }
 
                 chIndex++;
@@ -96,23 +113,27 @@ namespace txtedo
 
             while (!AllChildrenAccountedFor)
             {
+                //Loop through every child
                 if (lostChildren.Count > 0)
                 {
                     for (int i = 0; i < lostChildren.Count; i++)
                     {
                         YoungChild lostChild = lostChildren[i];
 
+                        //Parent command to pair with
                         string targetParent = lostChild.parentCommand;
 
+                        //Check with each parent
                         for (int c = 0; c < commandHolder.Count; c++)
                         {
                             Command parent = commandHolder[c];
 
                             if (parent.command == targetParent)
                             {
+                                //Add child command to parent
                                 parent.NewChild(lostChild.me);
+                                //Remove paired child from list
                                 lostChildren.RemoveAt(lostChild.at);
-                                Console.WriteLine(parent.command);
                             }
                         }
                     }
@@ -123,24 +144,16 @@ namespace txtedo
                 }
             }
 
-            //Get interface ALL modules inheirt from
-            //var commandModule = typeof(IModule);
-            //Gets all classes that inheirt from the interface
-            //var modules = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes()).Where(p => p.IsClass && commandModule.IsAssignableFrom(p)).ToArray();
-            
-            //for (int i = 0; i < modules.Length; i++)
-            //{
-             //   Console.WriteLine("Loading Module");
-             //   //Load instance of module
-             //   var module = Activator.CreateInstance(modules[i]);
-              //  //Get registration method
-              //  MethodInfo moduleInfo = commandModule.GetMethod("register");
+            //Assign finished list to command dictionary
+            this.commands = commandHolder;
+            this.commandRef = new string[commandHolder.Count];
 
-                //Pass this dictionary to reg method
-               // object[] parametersArray = new object[] {this, module};
-                //Invoke reg method
-               // moduleInfo.Invoke(module, parametersArray);
-            //}
+            int index = 0;
+            foreach (Command c in commandHolder) 
+            {
+                this.commandRef[index] = c.command;
+                index++;
+            }
         }
 
         public void AddCommand (Command command)

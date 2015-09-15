@@ -95,7 +95,16 @@ namespace txtedo
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+            try
+            {
+                Console.WriteLine("Test");
+                dynamic test = masterList[0].childCommands[0].module;
+                test.Run("new ");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         private void RunSearch(string searchQuery)
@@ -120,6 +129,28 @@ namespace txtedo
                     Console.WriteLine(ex.Message);
                 }
             }
+        }
+
+        public void UpdatePrompt(string prompt, bool solid = false)
+        {
+            string typingString = CommandBox.Text.ToString();
+
+            if (typingString != "")
+            {
+                Application.Current.Resources["CurrentPrompt"] = "";
+            }
+            else
+            {
+                Application.Current.Resources["CurrentPrompt"] = prompt;
+            }
+
+            PromptLabel.Text = Application.Current.Resources["CurrentPrompt"].ToString();
+        }
+
+        private void CommandBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string oldPrompt = (string)PromptLabel.Text;
+            UpdatePrompt(oldPrompt);
         }
     }
 }

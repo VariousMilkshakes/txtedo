@@ -10,5 +10,6 @@ namespace txtedo
     {
         public string Header { get; set; }
         public string Descriptor { get; set; }
+        
     }
 }
