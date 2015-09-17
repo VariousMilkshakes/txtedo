@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Reflection;
 
-namespace txtedo
+namespace txtedo.Module
 {
     public class Command
     {
@@ -37,24 +37,6 @@ namespace txtedo
         public void NewChild (Command child)
         {
             childCommands.Add(child);
-        }
-    }
-
-    public class InitiateModuleCommand
-    {
-        //Use to run rules associated with command
-        public static void Start(Object command, string userOptions)
-        {
-            //Functions in Module interface
-            var commandModule = typeof(IModule);
-            //Default function to start module rules with
-            MethodInfo tasker = commandModule.GetMethod("tasker");
-
-            //Options for task; not sure what to do with this yet
-            object[] commandOptions = new object[] { "WOOP", userOptions };
-
-            //Invoke tasker function
-            tasker.Invoke(command, commandOptions);
         }
     }
 }

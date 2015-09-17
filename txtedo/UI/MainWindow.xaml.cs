@@ -17,6 +17,10 @@ using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using System.IO;
 
+using txtedo.ViewModel;
+using txtedo.Module;
+using txtedo.Module.Control;
+
 namespace txtedo
 {
     /// <summary>
@@ -26,13 +30,10 @@ namespace txtedo
     {
         public double pageHeight;
         public double pageWidth;
-        public List<Command> masterList;
         private bool visibleFeedback = false;
 
         public MainWindow()
         {
-            Dictionary commandList = new Dictionary();
-            masterList = commandList.commands;
 
             InitializeComponent();
 
@@ -80,15 +81,6 @@ namespace txtedo
         //Update feedback box
         public void UpdateFeedback()
         {
-            var feedbackList = new List<FeedbackElement>();
-            
-            foreach (Command command in masterList) {
-                feedbackList.Add(new FeedbackElement {
-                    Header = command.command,
-                    Descriptor = command.commandTip
-                });
-            }
-
             //CollectionViewSource feedbackViewSource = (CollectionViewSource)(FindResource("feedbackData"));
             //feedbackViewSource.Source = feedbackList;
         }
@@ -98,8 +90,8 @@ namespace txtedo
             try
             {
                 Console.WriteLine("Test");
-                dynamic test = masterList[0].childCommands[0].module;
-                test.Run("new ");
+                //dynamic test = masterList[0].childCommands[0].module;
+                //test.Run("new ");
             }
             catch (Exception ex)
             {
@@ -129,28 +121,6 @@ namespace txtedo
                     Console.WriteLine(ex.Message);
                 }
             }
-        }
-
-        public void UpdatePrompt(string prompt, bool solid = false)
-        {
-            string typingString = CommandBox.Text.ToString();
-
-            if (typingString != "")
-            {
-                Application.Current.Resources["CurrentPrompt"] = "";
-            }
-            else
-            {
-                Application.Current.Resources["CurrentPrompt"] = prompt;
-            }
-
-            PromptLabel.Text = Application.Current.Resources["CurrentPrompt"].ToString();
-        }
-
-        private void CommandBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string oldPrompt = (string)PromptLabel.Text;
-            UpdatePrompt(oldPrompt);
         }
     }
 }

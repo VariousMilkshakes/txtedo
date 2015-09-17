@@ -9,7 +9,7 @@ using IronPython.Hosting;
 using Microsoft.Scripting;
 using Microsoft.Scripting.Hosting;
 
-namespace txtedo
+namespace txtedo.Module.Control
 {
     class Dictionary
     {
