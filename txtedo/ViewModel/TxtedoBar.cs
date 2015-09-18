@@ -14,9 +14,9 @@ namespace txtedo.ViewModel
         public string visibleInput;
         public string command;
         public string options;
+        public string currentCommand;
 
         private string hiddenPrompt;
-        private string currentCommand;
 
         private Dictionary dict;
         private Translator tran;
@@ -25,7 +25,7 @@ namespace txtedo.ViewModel
         {
             //Prompt on start up
             visibleInput = "Your Command";
-            this.currentCommand = "";
+            currentCommand = "";
 
             //Collect commands
             this.dict = new Dictionary();
@@ -46,10 +46,8 @@ namespace txtedo.ViewModel
             this.tran.Run(this.tran.Get(command), options);
         }
 
-        public void ChangeInput (string input)
+        public void ChangeInput ()
         {
-            this.currentCommand = input;
-
             if (currentCommand != "")
             {
                 this.hiddenPrompt = visibleInput;
@@ -65,7 +63,7 @@ namespace txtedo.ViewModel
         public bool IsValid ()
         {
             //Prompt should disappear once user starts typing
-            if (this.currentCommand != "" && this.visibleInput != "")
+            if (currentCommand != "" && this.visibleInput != "")
             {
                 Console.WriteLine("Flase");
                 return false;

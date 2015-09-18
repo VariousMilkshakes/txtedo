@@ -10,8 +10,6 @@ namespace txtedo.ViewModel
     //User input passes through here then is redirected to the View Model Method
     public class InputListener : ICommand
     {
-        private TxtedoBarViewModel vm;
-
         private Action WhatToExecute;
         private Func<bool> WhenToExecute;
 

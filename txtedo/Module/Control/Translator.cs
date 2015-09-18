@@ -25,5 +25,47 @@ namespace txtedo.Module.Control
         {
             module.Run(options);
         }
+
+        public List<Command> QueryTop(string command)
+        {
+            //Narrowed list of commands from query
+            List<Command> smallList = new List<Command>();
+
+            //Loop through each command
+            foreach (Command com in masterList)
+            {
+                bool match = true;
+
+                //Index of user input
+                int index = 0;
+                //Max value of 'index'
+                int roof = com.command.Length;
+
+                //Each character in current command
+                foreach (char c in com.command)
+                {
+                    //User input ends before command
+                    if (index < roof)
+                    {
+                        if (c != command[index])
+                        {
+                            match = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if (match)
+                {
+                    smallList.Add(com);
+                }
+            }
+
+            return smallList;
+        }
     }
 }

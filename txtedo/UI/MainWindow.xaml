@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:ViewModel="clr-namespace:txtedo.ViewModel"
-        Title="MainWindow" Height="50" Width="400" ResizeMode="NoResize" WindowStyle="None" Background="Black" Top="100" Left="100">
+        Title="MainWindow" Height="400" Width="400" ResizeMode="NoResize" WindowStyle="None" Background="Black" Top="100" Left="100">
     <Window.Resources>
         <ViewModel:TxtedoBarViewModel x:Key="tbvm" />
     </Window.Resources>
     <Grid x:Name="txtedoWindow" Height="50" VerticalAlignment="Bottom">
         <Label x:Name="lblPrompt" Content="{Binding LblPrompt, Source={StaticResource tbvm}}" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Background="#FF474747" Width="345" Foreground="Gray" FontFamily="Hack" FontSize="35"/>
-        <TextBox x:Name="CommandBox" HorizontalAlignment="Left" TextWrapping="Wrap" Width="345" Background="{x:Null}" Foreground="White" BorderBrush="#FF474747" FontFamily="Hack" FontSize="35" SelectionBrush="#FF474747" Height="50" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="CommandBox" HorizontalAlignment="Left" TextWrapping="Wrap" Width="345" Background="{x:Null}" Foreground="White" BorderBrush="#FF474747" FontFamily="Hack" FontSize="35" SelectionBrush="#FF474747" Height="50" VerticalAlignment="Bottom" Text="{Binding TxtCommandInput, Mode=TwoWay, Source={StaticResource tbvm}, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Content="❯" HorizontalAlignment="Left" Margin="350,0,0,0" Width="50" Height="50" Background="#FF474747" BorderBrush="#FF474747" Foreground="White" FontSize="22" FontFamily="Hack" VerticalAlignment="Bottom" RenderTransformOrigin="0.467,-0.1" BorderThickness="1,1,1,1" ClipToBounds="False" Click="Button_Click" Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
+        <DataGrid HorizontalAlignment="Left" Margin="0,-353,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4,-3.923" Width="400" Height="348"/>
     </Grid>
 </Window>

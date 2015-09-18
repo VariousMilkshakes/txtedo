@@ -12,18 +12,20 @@ namespace txtedo.ViewModel
     {
         private TxtedoBar bar = new TxtedoBar();
 
-        private InputListener ilr;
+        private InputListener ilr_SendCommand;
+        private InputListener ilr_InputChanged;
 
         public TxtedoBarViewModel ()
         {
             //Pass txtedo bar commands to listener
-            ilr = new InputListener(bar.SendCommand, bar.IsValid);
+            ilr_SendCommand = new InputListener(bar.SendCommand, bar.IsValid);
+            ilr_InputChanged = new InputListener(bar.ChangeInput, bar.IsValid);
         }
 
         //Give XML access to ICommand
         public ICommand submitInput
         {
-            get { return ilr; }
+            get { return ilr_SendCommand; }
         }
 
         //User input prompt
@@ -43,13 +45,16 @@ namespace txtedo.ViewModel
 
         public string TxtCommandInput
         {
-            get { return bar.command; }
+            get { return bar.currentCommand; }
             set
             {
-                bar.ChangeInput(value);
+                Console.WriteLine("Changed");
+                bar.currentCommand = value;
+                bar.ChangeInput();
 
                 if (PropertyChanged != null)
                 {
+                    PropertyChanged(this, new PropertyChangedEventArgs("TxtCommandInput"));
                     PropertyChanged(this, new PropertyChangedEventArgs("LblPrompt"));
                 }
             }
