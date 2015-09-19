@@ -52,13 +52,16 @@ namespace txtedo.ViewModel
                 splitInput.RemoveAt(0);
                 options = string.Join(" ", splitInput.ToArray());
 
-                
+                //TODO: route commands to children or send with options
             }
             else
             {
+                //Run python without parameters
                 complete = this.tran.Run(c.module);
             }
 
+            //If script ran successfully clear command and start again
+            //Maybe hide bar on completion
             if (complete)
             {
                 currentCommand = "";
@@ -66,19 +69,25 @@ namespace txtedo.ViewModel
             }
         }
 
+        //Runs every time user input changes
         public void ChangeInput ()
         {
             if (currentCommand != "")
             {
+                //Keep track of prompt while it is not displayed
                 this.hiddenPrompt = visibleInput;
                 visibleInput = "";
 
+                //Data tables user ObservableCollections instead of lists
+                //Convert between the two
                 preview = new ObservableCollection<CommandPreview>(tran.QueryTop(currentCommand));
             }
             else
             {
+                //Display prompt again
                 visibleInput = this.hiddenPrompt;
 
+                //Display all parent commands
                 preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
             }
         }
