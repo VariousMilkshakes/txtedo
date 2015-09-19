@@ -11,6 +11,24 @@
         <Label x:Name="lblPrompt" Content="{Binding LblPrompt, Source={StaticResource tbvm}}" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Background="#FF474747" Width="345" Foreground="Gray" FontFamily="Hack" FontSize="35"/>
         <TextBox x:Name="CommandBox" HorizontalAlignment="Left" TextWrapping="Wrap" Width="345" Background="{x:Null}" Foreground="White" BorderBrush="#FF474747" FontFamily="Hack" FontSize="35" SelectionBrush="#FF474747" Height="50" VerticalAlignment="Bottom" Text="{Binding TxtCommandInput, Mode=TwoWay, Source={StaticResource tbvm}, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Content="❯" HorizontalAlignment="Left" Margin="350,0,0,0" Width="50" Height="50" Background="#FF474747" BorderBrush="#FF474747" Foreground="White" FontSize="22" FontFamily="Hack" VerticalAlignment="Bottom" RenderTransformOrigin="0.467,-0.1" BorderThickness="1,1,1,1" ClipToBounds="False" Click="Button_Click" Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
-        <DataGrid HorizontalAlignment="Left" Margin="0,-353,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4,-3.923" Width="400" Height="348"/>
+        <DataGrid HorizontalAlignment="Left" Margin="0,-353,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4,-3.923" Width="400" Height="348" ItemsSource="{Binding Preview, Source={StaticResource tbvm}}" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" GridLinesVisibility="Vertical" HeadersVisibility="None" FrozenColumnCount="2" Background="#FF474747" AutoGenerateColumns="False" BorderBrush="#FF343434" Foreground="Black">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding name}" Width="100" Foreground="Black" FontFamily="Hack" FontSize="18">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn  Width="300" Binding="{Binding tip}" Foreground="Black" FontFamily="Hack" FontSize="12">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

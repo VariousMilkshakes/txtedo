@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Input;
+
+using txtedo.Module.Control;
 
 namespace txtedo.ViewModel
 {
@@ -13,13 +16,11 @@ namespace txtedo.ViewModel
         private TxtedoBar bar = new TxtedoBar();
 
         private InputListener ilr_SendCommand;
-        private InputListener ilr_InputChanged;
 
         public TxtedoBarViewModel ()
         {
             //Pass txtedo bar commands to listener
-            ilr_SendCommand = new InputListener(bar.SendCommand, bar.IsValid);
-            ilr_InputChanged = new InputListener(bar.ChangeInput, bar.IsValid);
+            ilr_SendCommand = new InputListener(this.SubmitCommand, bar.IsValid);
         }
 
         //Give XML access to ICommand
@@ -48,22 +49,38 @@ namespace txtedo.ViewModel
             get { return bar.currentCommand; }
             set
             {
-                Console.WriteLine("Changed");
                 bar.currentCommand = value;
                 bar.ChangeInput();
 
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("TxtCommandInput"));
-                    PropertyChanged(this, new PropertyChangedEventArgs("LblPrompt"));
-                }
+                this.RefreshAll();
             }
         }
 
-        public void SubmitCommand()
+        //Binds List of current availible commands to list
+        public ObservableCollection<CommandPreview> Preview
+        {
+            get { return bar.CommandPreview; }
+        }
+
+        private void SubmitCommand()
         {
             Console.WriteLine("Heard");
             bar.SendCommand();
+
+            bar.currentCommand = "";
+            bar.ChangeInput();
+
+            this.RefreshAll();
+        }
+
+        private void RefreshAll()
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("TxtCommandInput"));
+                PropertyChanged(this, new PropertyChangedEventArgs("LblPrompt"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Preview"));
+            }
         }
 
         //Notify UI of changed property

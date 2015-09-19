@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Module\Control\CommandPreview.cs" />
     <Compile Include="Module\Control\Translator.cs" />
     <Compile Include="ViewModel\InputListener.cs" />
     <Compile Include="ViewModel\TxtedoBar.cs" />

@@ -9,6 +9,7 @@ namespace txtedo.Module.Control
 {
     class Translator
     {
+        //List of all commands
         private List<Command> masterList;
 
         public Translator(Dictionary dictionary)
@@ -16,20 +17,96 @@ namespace txtedo.Module.Control
             masterList = dictionary.commands;
         }
 
-        public dynamic Get(string command)
+        //Returns all parent commands in CommandPreview Format
+        public List<CommandPreview> GetAll()
         {
-            return masterList[0].childCommands[0].module;
+            List<CommandPreview> preview = new List<CommandPreview>();
+
+            foreach(Command command in masterList)
+            {
+                //Convert command to CommandPreview
+                CommandPreview cp = new CommandPreview(command);
+                preview.Add(cp);
+            }
+
+            return preview;
         }
 
-        public void Run(dynamic module, string options)
+        //Return best match CommandPreview from displayed commands for user input
+        private CommandPreview BestMatch(List<CommandPreview> commands, string input)
         {
-            module.Run(options);
+            //Similar to QueryTop process
+            foreach (CommandPreview command in commands)
+            {
+                int index = 0;
+                int roof = input.Length;
+
+                foreach (char c in command.name)
+                {
+                    if (index < roof)
+                    {
+                        if (c != input[index])
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                    index++;
+                }
+
+                return command;
+            }
+
+            //No matching commands
+            return null;
         }
 
-        public List<Command> QueryTop(string command)
+        //Turn user input into command
+        public Command GetFrom(List<CommandPreview> currentOptions, string choice)
+        {
+            CommandPreview visualRef = BestMatch(currentOptions, choice);
+
+            //Convert CommandPreview back into full Command
+            foreach (Command command in this.masterList)
+            {
+                if (command.command == visualRef.name)
+                {
+                    return command;
+                }
+            }
+
+            //No command found
+            return null;
+        }
+
+        //Run dynamic module from command
+        public bool Run(dynamic module, string options = "")
+        {
+            //Check if the python was successfull
+            bool success = false;
+
+            if (options == "")
+            {
+                //Run python without parameters
+                success = module.Run();
+            }
+            else
+            {
+                //Run python with user parameters
+                success = module.Run(options);
+            }
+
+            return success;
+        }
+
+        public List<CommandPreview> QueryTop(string command)
         {
             //Narrowed list of commands from query
-            List<Command> smallList = new List<Command>();
+            List<CommandPreview> smallList = new List<CommandPreview>();
 
             //Loop through each command
             foreach (Command com in masterList)
@@ -39,7 +116,7 @@ namespace txtedo.Module.Control
                 //Index of user input
                 int index = 0;
                 //Max value of 'index'
-                int roof = com.command.Length;
+                int roof = command.Length;
 
                 //Each character in current command
                 foreach (char c in com.command)
@@ -57,12 +134,15 @@ namespace txtedo.Module.Control
                     {
                         break;
                     }
+
+                    index++;
                 }
 
                 if (match)
                 {
-                    smallList.Add(com);
+                    smallList.Add(new CommandPreview(com));
                 }
+
             }
 
             return smallList;
