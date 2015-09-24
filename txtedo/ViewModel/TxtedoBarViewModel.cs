@@ -15,18 +15,42 @@ namespace txtedo.ViewModel
     {
         private TxtedoBar bar = new TxtedoBar();
 
+        //Event handlers
         private InputListener ilr_SendCommand;
+        private InputListener ilr_BackUpCommand;
 
         public TxtedoBarViewModel ()
         {
             //Pass txtedo bar commands to listener
             ilr_SendCommand = new InputListener(this.SubmitCommand, bar.IsValid);
+            ilr_BackUpCommand = new InputListener(this.BackUp, bar.IsValid);
         }
 
         //Give XML access to ICommand
         public ICommand submitInput
         {
             get { return ilr_SendCommand; }
+        }
+
+        public ICommand backUpInput
+        {
+            get { return ilr_BackUpCommand; }
+        }
+
+        //Quote Alert
+        public string LblQuote
+        {
+            get
+            {
+                if (bar.inQuotes)
+                {
+                    return "\"";
+                }
+                else
+                {
+                    return "";
+                }
+            }
         }
 
         //User input prompt
@@ -62,6 +86,7 @@ namespace txtedo.ViewModel
             get { return bar.CommandPreview; }
         }
 
+        //UI events
         private void SubmitCommand()
         {
             Console.WriteLine("Heard");
@@ -73,6 +98,19 @@ namespace txtedo.ViewModel
             this.RefreshAll();
         }
 
+        private void BackUp()
+        {
+            Console.WriteLine("Back");
+
+            //Default back functionality
+            bar.currentCommand = bar.currentCommand.Remove(bar.currentCommand.Length - 1, 1);
+
+            bar.BackUpCommand();
+
+            this.RefreshAll();
+        }
+
+        //Refresh every UI element
         private void RefreshAll()
         {
             if (PropertyChanged != null)
@@ -80,6 +118,7 @@ namespace txtedo.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs("TxtCommandInput"));
                 PropertyChanged(this, new PropertyChangedEventArgs("LblPrompt"));
                 PropertyChanged(this, new PropertyChangedEventArgs("Preview"));
+                PropertyChanged(this, new PropertyChangedEventArgs("LblQuote"));
             }
         }
 

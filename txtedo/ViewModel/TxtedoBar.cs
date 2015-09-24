@@ -16,6 +16,7 @@ namespace txtedo.ViewModel
         public string command;
         public string options;
         public string currentCommand;
+        public bool inQuotes = false;
 
         private string hiddenPrompt;
 
@@ -38,55 +39,29 @@ namespace txtedo.ViewModel
             preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
         }
 
-        public void SendCommand ()
+        public void SendCommand()
         {
-            List<string> splitInput = currentCommand.Split(' ').ToList();
-            Command c;
+            bool complete = false;
 
-            //Relevant command
-            if (runningCommand != null)
+            complete = this.tran.Run(runningCommand.module, currentCommand);
+
+            if (complete)
             {
-                c = this.tran.GetFrom(new List<CommandPreview>(this.preview), runningCommand.command, runningCommand.childCommands);
+                Console.WriteLine("Command finished");
+
+                preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
+                runningCommand = null;
             }
             else
             {
-                c = this.tran.GetFrom(new List<CommandPreview>(this.preview), runningCommand.command);
-            }
-            
-            //If c = null reached end of child tree and run command
-            if (c == null)
-            {
-                bool complete = false;
-
-                //If user has input more options
-                if (splitInput.Count > 1)
-                {
-                    //TODO: find level of child to remove all but options
-                    splitInput.RemoveAt(0);
-                    options = string.Join(" ", splitInput.ToArray());
-
-                    //complete = this.tran.Run(c.module, options);
-                    //TODO: route commands to children or send with options
-                    
-                }
-                else
-                {
-                    //Run python without parameters
-                    complete = this.tran.Run(c.module);
-                }
-
-                //If script ran successfully clear command and start again
-                //Maybe hide bar on completion
-                if (complete)
-                {
-                    currentCommand = "";
-                    ChangeInput();
-                }
+                Console.WriteLine("Command failed");
             }
         }
 
         public void ChangeInput()
         {
+            QuoteFormatter();
+
             if (currentCommand == "")
             {
                 //Display hidden prompt
@@ -111,49 +86,71 @@ namespace txtedo.ViewModel
 
                 if (currentCommand[currentCommand.Length - 1] == ' ')
                 {
-                    //Remove space from command
-                    string thisCommand = currentCommand.Remove(currentCommand.Length - 1, 1);
-
-                    Command tempCommand;
-                    currentCommand = "";
-
-                    //If no commands have been inputted yet
-                    if (runningCommand == null)
-                    {
-                        //Search from masterlist
-                        //Convert preview back into normal List
-                        tempCommand = this.tran.GetFrom(new List<CommandPreview>(preview), thisCommand);
-                        //Show command as prompt
-                        visiblePrompt = tempCommand.command;
-                    }
-                    //Show list of child commands
-                    else
-                    {
-                        tempCommand = this.tran.GetFrom(new List<CommandPreview>(preview), thisCommand, runningCommand.childCommands);
-                    }
-
-                    //If no matches can be found stop
-                    if (tempCommand == null)
+                    //Check if input isn't in quotes or is confirmed option
+                    if (this.inQuotes || runningCommand != null && runningCommand.childCommands.Count == 0)
                     {
                         return;
                     }
-                    //If the found command has children
-                    else if (tempCommand.childCommands.Count > 0)
-                    {
-                        //Show children
-                        preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", tempCommand.childCommands));
-                        //Store current command
-                        runningCommand = tempCommand;
-                    }
-                    //Next input must be option
                     else
                     {
-                        //Clear prompts
-                        preview = null;
+                        //Remove space from command
+                        string thisCommand = currentCommand.Remove(currentCommand.Length - 1, 1);
 
-                        visiblePrompt = tempCommand.command;
+                        Command tempCommand;
+                        currentCommand = "";
 
-                        runningCommand = tempCommand;
+                        //If no commands have been inputted yet
+                        if (runningCommand == null)
+                        {
+                            //Search from masterlist
+                            //Convert preview back into normal List
+                            tempCommand = this.tran.GetFrom(new List<CommandPreview>(preview), thisCommand);
+
+                            try
+                            {
+                                //Show command as prompt
+                                visiblePrompt = tempCommand.command;
+                            }
+                            catch
+                            {
+                                //If user trys to use no existent command
+                                //Reset list
+                                preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(""));
+                                return;
+                            }
+                        }
+                        //Show list of child commands
+                        else
+                        {
+                            tempCommand = this.tran.GetFrom(new List<CommandPreview>(preview), thisCommand, runningCommand.childCommands);
+                        }
+
+                        //If no matches can be found stop
+                        if (tempCommand == null)
+                        {
+                            //None existent child command is used
+                            //Reset preview
+                            preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", runningCommand.childCommands));
+                            return;
+                        }
+                        //If the found command has children
+                        else if (tempCommand.childCommands.Count > 0)
+                        {
+                            //Show children
+                            preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", tempCommand.childCommands));
+                            //Store current command
+                            runningCommand = tempCommand;
+                        }
+                        //Next input must be option
+                        else
+                        {
+                            //Clear prompts
+                            preview = null;
+
+                            visiblePrompt = tempCommand.command;
+
+                            runningCommand = tempCommand;
+                        }
                     }
                 }
                 else
@@ -170,67 +167,45 @@ namespace txtedo.ViewModel
             }
         }
 
-        //Runs every time user input changes
-        public void ChangeInput1()
+        private void QuoteFormatter()
         {
-            if (currentCommand != "")
+            //Toggle quotes on and off
+            if (currentCommand != "" && currentCommand[currentCommand.Length - 1] == '"')
             {
-                //Keep track of prompt while it is not displayed
-                this.hiddenPrompt = visiblePrompt;
-                visiblePrompt = "";
-
-                List<string> input = currentCommand.Split(' ').ToList();
-
-                if (currentCommand[currentCommand.Length - 1] == ' ')
+                //Allow use of escaped quotes
+                if (currentCommand.Length < 2 || currentCommand[currentCommand.Length - 2] != '\\')
                 {
-                    string thisCommand = input[input.Count - 1];
-                    Command tempCommand;
+                    this.inQuotes = !this.inQuotes;
 
-                    currentCommand = "";
-
-                    if (runningCommand == null)
+                    //Remove open and close quote from input
+                    if (this.inQuotes)
                     {
-                        tempCommand = this.tran.GetFrom(new List<CommandPreview>(preview), thisCommand);
-                        visiblePrompt = tempCommand.command;
+                        currentCommand = currentCommand.Remove(currentCommand.Length - 1, 1);
                     }
                     else
                     {
-                        tempCommand = this.tran.GetFrom(new List<CommandPreview>(preview), thisCommand, runningCommand.childCommands);
-                        visiblePrompt = runningCommand.command;
-                    }
-
-                    if (tempCommand != null && tempCommand.childCommands.Count > 0)
-                    {
-                        preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", tempCommand.childCommands));
-                        runningCommand = tempCommand;
-                    }
-                    else if (tempCommand != null)
-                    {
-                        runningCommand = tempCommand;
-                    }
-                    else
-                    {
-                        return;
+                        currentCommand = currentCommand.Remove(currentCommand.Length - 1, 1);
                     }
                 }
-                else if (input.Count > 1 && runningCommand != null)
-                {
-                    if (runningCommand.childCommands.Count != 0)
-                    {
-                        preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(input[1], runningCommand.childCommands));
-                    }
-                }
+                //Hide escaped character
                 else
                 {
-                    //Data tables user ObservableCollections instead of lists
-                    //Convert between the two
-                    preview = new ObservableCollection<CommandPreview>(tran.QueryAllIn(currentCommand));
+                    currentCommand = currentCommand.Remove(currentCommand.Length - 2, 1);
                 }
+            }
+        }
+
+        //Move back up the command tree by one
+        public void BackUpCommand()
+        {
+            if (runningCommand == null || currentCommand.Length != 0)
+            {
+                //No parent
+                ChangeInput();
             }
             else
             {
-                //Display prompt again
-                visiblePrompt = this.hiddenPrompt;
+                preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(runningCommand.parent));
             }
         }
 

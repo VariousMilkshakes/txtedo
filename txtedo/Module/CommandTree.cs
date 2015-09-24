@@ -18,6 +18,8 @@ namespace txtedo.Module
         //Controller to invoke rules from
         public dynamic module;
 
+        public string parent = "";
+
         public Command (dynamic script, string name, string tip = "")
         {
             this.command = name;
@@ -37,6 +39,13 @@ namespace txtedo.Module
         public void NewChild (Command child)
         {
             childCommands.Add(child);
+            //Give parent reference to child
+            child.NewParent(this);
+        }
+
+        public void NewParent (Command parentCommand)
+        {
+            parent = parentCommand.command;
         }
     }
 }
