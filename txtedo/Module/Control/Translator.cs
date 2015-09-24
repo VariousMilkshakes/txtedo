@@ -11,6 +11,7 @@ namespace txtedo.Module.Control
     {
         //List of all commands
         private List<Command> masterList;
+        private List<CommandPreview> previewList;
 
         public Translator(Dictionary dictionary)
         {
@@ -29,6 +30,7 @@ namespace txtedo.Module.Control
                 preview.Add(cp);
             }
 
+            this.previewList = preview;
             return preview;
         }
 
@@ -66,16 +68,31 @@ namespace txtedo.Module.Control
         }
 
         //Turn user input into command
-        public Command GetFrom(List<CommandPreview> currentOptions, string choice)
+        public Command GetFrom(List<CommandPreview> currentOptions, string choice, List<Command> from = null)
         {
+            this.previewList = currentOptions;
             CommandPreview visualRef = BestMatch(currentOptions, choice);
 
-            //Convert CommandPreview back into full Command
-            foreach (Command command in this.masterList)
+            if (visualRef != null)
             {
-                if (command.command == visualRef.name)
+                List<Command> thisList;
+
+                if (from == null)
                 {
-                    return command;
+                    thisList = masterList;
+                }
+                else
+                {
+                    thisList = from;
+                }
+
+                //Convert CommandPreview back into full Command
+                foreach (Command command in thisList)
+                {
+                    if (command.command == visualRef.name)
+                    {
+                        return command;
+                    }
                 }
             }
 
@@ -103,20 +120,27 @@ namespace txtedo.Module.Control
             return success;
         }
 
-        public List<CommandPreview> QueryTop(string command)
+        public List<CommandPreview> QueryAllIn(string command, List<Command> collection = null)
         {
+            if (collection == null)
+            {
+                collection = masterList;
+            }
+
             //Narrowed list of commands from query
             List<CommandPreview> smallList = new List<CommandPreview>();
 
+            string query = command.Split(' ')[0];
+
             //Loop through each command
-            foreach (Command com in masterList)
+            foreach (Command com in collection)
             {
                 bool match = true;
 
                 //Index of user input
                 int index = 0;
                 //Max value of 'index'
-                int roof = command.Length;
+                int roof = query.Length;
 
                 //Each character in current command
                 foreach (char c in com.command)
@@ -124,7 +148,7 @@ namespace txtedo.Module.Control
                     //User input ends before command
                     if (index < roof)
                     {
-                        if (c != command[index])
+                        if (c != query[index])
                         {
                             match = false;
                             break;
@@ -145,6 +169,7 @@ namespace txtedo.Module.Control
 
             }
 
+            this.previewList = smallList;
             return smallList;
         }
     }

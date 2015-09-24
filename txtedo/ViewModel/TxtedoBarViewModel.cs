@@ -32,10 +32,10 @@ namespace txtedo.ViewModel
         //User input prompt
         public string LblPrompt
         {
-            get { return bar.visibleInput; }
+            get { return bar.visiblePrompt; }
             set
             {
-                bar.visibleInput = value;
+                bar.visiblePrompt = value;
 
                 if (PropertyChanged != null)
                 {
