@@ -3,32 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:ViewModel="clr-namespace:txtedo.ViewModel"
-        Title="MainWindow" Height="400" Width="400" ResizeMode="NoResize" WindowStyle="None" Background="Black" Top="100" Left="100">
+        Title="MainWindow" Height="299" Width="400" ResizeMode="NoResize" WindowStyle="None" Background="Black" Top="100" Left="100">
     <Window.Resources>
         <ViewModel:TxtedoBarViewModel x:Key="tbvm" />
     </Window.Resources>
-    <Grid x:Name="txtedoWindow" Height="50" VerticalAlignment="Bottom">
-        <Label x:Name="lblPrompt" Content="{Binding LblPrompt, Source={StaticResource tbvm}}" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Background="#FF474747" Width="345" Foreground="Gray" FontFamily="Hack" FontSize="35"/>
-        <TextBox x:Name="CommandBox" HorizontalAlignment="Left" TextWrapping="Wrap" Width="345" Background="{x:Null}" Foreground="White" BorderBrush="#FF474747" FontFamily="Hack" FontSize="35" SelectionBrush="#FF474747" Height="50" VerticalAlignment="Bottom" Text="{Binding TxtCommandInput, Mode=TwoWay, Source={StaticResource tbvm}, UpdateSourceTrigger=PropertyChanged}">
+    <Grid x:Name="txtedoWindow" Height="49" VerticalAlignment="Bottom">
+        <Label x:Name="lblPrompt" Content="{Binding LblPrompt, Source={StaticResource tbvm}}" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Background="#FF474747" Width="370" Foreground="Gray" FontFamily="Hack" FontSize="18" Margin="0,20,0,-1"/>
+        <TextBox x:Name="CommandBox" HorizontalAlignment="Left" TextWrapping="Wrap" Width="370" Background="{x:Null}" Foreground="White" BorderBrush="#FF474747" FontFamily="Hack" FontSize="18" SelectionBrush="#FF474747" Height="30" VerticalAlignment="Bottom" Text="{Binding TxtCommandInput, Mode=TwoWay, Source={StaticResource tbvm}, UpdateSourceTrigger=PropertyChanged}">
             <TextBox.InputBindings>
                 <KeyBinding Key="Return" Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
                 <KeyBinding Key="Enter" Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
                 <KeyBinding Key="Back" Command="{Binding backUpInput, Mode=OneWay, Source={StaticResource tbvm}}" />
             </TextBox.InputBindings>
         </TextBox>
-        <Button Content="❯" HorizontalAlignment="Left" Margin="350,0,0,0" Width="50" Height="50" Background="#FF474747" BorderBrush="#FF474747" Foreground="White" FontSize="22" FontFamily="Hack" VerticalAlignment="Bottom" RenderTransformOrigin="0.467,-0.1" BorderThickness="1,1,1,1" ClipToBounds="False" Click="Button_Click" Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
-        <DataGrid HorizontalAlignment="Left" Margin="0,-353,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4,-3.923" Width="400" Height="348" ItemsSource="{Binding Preview, Source={StaticResource tbvm}}" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" GridLinesVisibility="Vertical" HeadersVisibility="None" FrozenColumnCount="2" Background="#FF474747" AutoGenerateColumns="False" BorderBrush="#FF343434" Foreground="Black">
+        <Button Content="❯" HorizontalAlignment="Left" Margin="375,0,0,-1" Width="25" Height="31" Background="#FF474747" BorderBrush="#FF474747" Foreground="#FF474747" FontSize="22" FontFamily="Hack" VerticalAlignment="Bottom" RenderTransformOrigin="0.467,-0.1" BorderThickness="1,1,1,1" ClipToBounds="False" Click="Button_Click" Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
+        <DataGrid HorizontalAlignment="Left" Margin="0,-250,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4,-3.923" Width="400" Height="264" ItemsSource="{Binding Preview, Source={StaticResource tbvm}}" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" GridLinesVisibility="Vertical" HeadersVisibility="None" FrozenColumnCount="2" Background="#FF474747" AutoGenerateColumns="False" BorderBrush="#FF343434" Foreground="Black">
+            <DataGrid.RowBackground>#FF474747</DataGrid.RowBackground>
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding name}" Width="100" Foreground="Black" FontFamily="Hack" FontSize="18">
+                <DataGridTextColumn Binding="{Binding name}" Width="100" Foreground="#FDFDFD" FontFamily="Hack" FontSize="18">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
+                            <Setter Property="TextBlock.Background" Value="#FF474747"></Setter>
                             <Setter Property="TextBlock.VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn  Width="300" Binding="{Binding tip}" Foreground="Black" FontFamily="Hack" FontSize="12">
+                <DataGridTextColumn  Width="300" Binding="{Binding tip}" FontFamily="Hack" FontSize="12" Foreground="#FFFDFDFD">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
+                            <Setter Property="TextBlock.Background" Value="#FF474747"></Setter>
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                             <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
                         </Style>
