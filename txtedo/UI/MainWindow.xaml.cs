@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-
+using System.Windows.Controls;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 
@@ -107,5 +107,23 @@ namespace txtedo
                 }
             }
         }
+
+        private void UnselectCells(DataGrid dg)
+        {
+            dg.UnselectAll();
+            dg.UnselectAllCells();
+        }
+
+        private void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            UnselectCells(sender as DataGrid);
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UnselectCells(sender as DataGrid);
+        }
+
+
     }
 }
