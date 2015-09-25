@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
-
+using txtedo.ViewModel;
 
 
 namespace txtedo
@@ -11,7 +11,7 @@ namespace txtedo
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public double pageHeight;
         public double pageWidth;
@@ -62,6 +62,7 @@ namespace txtedo
                 visibleFeedback = true;
             }
         }
+
 
         //Update feedback box
         public void UpdateFeedback()
@@ -121,9 +122,10 @@ namespace txtedo
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UnselectCells(sender as DataGrid);
+            var obj = sender as DataGrid;
+            UnselectCells(obj);
+           
         }
-
 
     }
 }

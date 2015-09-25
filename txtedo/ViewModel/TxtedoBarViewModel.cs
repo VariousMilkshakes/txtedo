@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 using txtedo.Module.Control;
@@ -84,7 +86,29 @@ namespace txtedo.ViewModel
         public ObservableCollection<CommandPreview> Preview
         {
             get { return bar.CommandPreview; }
+            
         }
+
+        public int PreviewHeight
+        {
+            get
+            {
+                if (bar.CommandPreview == null)
+                {
+                    return 0;
+
+                }
+                return (bar.CommandPreview.Count * 20) + 35; 
+            }
+        }
+
+        public int WindowHeight
+        {
+            get { return PreviewHeight + 29; }
+        }
+
+
+
 
         //UI events
         private void SubmitCommand()
@@ -125,6 +149,8 @@ namespace txtedo.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs("LblPrompt"));
                 PropertyChanged(this, new PropertyChangedEventArgs("Preview"));
                 PropertyChanged(this, new PropertyChangedEventArgs("LblQuote"));
+                PropertyChanged(this, new PropertyChangedEventArgs("WindowHeight"));
+                PropertyChanged(this, new PropertyChangedEventArgs("PreviewHeight"));
             }
         }
 

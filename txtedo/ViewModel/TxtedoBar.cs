@@ -35,11 +35,13 @@ namespace txtedo.ViewModel
             visiblePrompt = "Your Command";
             currentCommand = "";
 
+           
+
             //Collect commands
             this.dict = new Dictionary();
             this.tran = new Translator(dict);
             preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
-
+            
             commandStack = new List<Command>();
         }
 
