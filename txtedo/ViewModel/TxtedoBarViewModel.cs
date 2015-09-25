@@ -103,9 +103,15 @@ namespace txtedo.ViewModel
             Console.WriteLine("Back");
 
             //Default back functionality
-            bar.currentCommand = bar.currentCommand.Remove(bar.currentCommand.Length - 1, 1);
-
-            bar.BackUpCommand();
+            if (bar.currentCommand.Length > 0)
+            {
+                bar.currentCommand = bar.currentCommand.Remove(bar.currentCommand.Length - 1, 1);
+                bar.ChangeInput();
+            }
+            else
+            {
+                bar.BackUpCommand();
+            }
 
             this.RefreshAll();
         }

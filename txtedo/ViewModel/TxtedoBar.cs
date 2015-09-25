@@ -25,6 +25,8 @@ namespace txtedo.ViewModel
         private ObservableCollection<CommandPreview> preview;
 
         private Command runningCommand;
+        //Commands used by user
+        private List<Command> commandStack;
 
         //BACK END CONTROL FOR UI OPERATIONS
         public TxtedoBar()
@@ -37,25 +39,32 @@ namespace txtedo.ViewModel
             this.dict = new Dictionary();
             this.tran = new Translator(dict);
             preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
+
+            commandStack = new List<Command>();
         }
 
         public void SendCommand()
         {
             bool complete = false;
 
-            complete = this.tran.Run(runningCommand.module, currentCommand);
-
-            if (complete)
+            if (preview.Count != 0 || runningCommand != null)
             {
-                Console.WriteLine("Command finished");
+                complete = this.tran.Run(this.runningCommand.module, currentCommand);
 
-                preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
-                runningCommand = null;
-            }
-            else
-            {
-                Console.WriteLine("Command failed");
-            }
+                if (complete)
+                {
+                    Console.WriteLine("Command finished");
+
+                    preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
+                    //Reset after command is run
+                    this.runningCommand = null;
+                    commandStack = new List<Command>();
+                }
+                else
+                {
+                    Console.WriteLine("Command failed");
+                }
+            } 
         }
 
         public void ChangeInput()
@@ -68,13 +77,13 @@ namespace txtedo.ViewModel
                 visiblePrompt = this.hiddenPrompt;
 
                 //Display full list
-                if (runningCommand == null)
+                if (this.runningCommand == null)
                 {
                     preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(""));
                 }
                 else
                 {
-                    preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", runningCommand.childCommands));
+                    preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", this.runningCommand.childCommands));
                 }
             }
             else
@@ -87,7 +96,7 @@ namespace txtedo.ViewModel
                 if (currentCommand[currentCommand.Length - 1] == ' ')
                 {
                     //Check if input isn't in quotes or is confirmed option
-                    if (this.inQuotes || runningCommand != null && runningCommand.childCommands.Count == 0)
+                    if (this.inQuotes || this.runningCommand != null && this.runningCommand.childCommands.Count == 0)
                     {
                         return;
                     }
@@ -100,7 +109,7 @@ namespace txtedo.ViewModel
                         currentCommand = "";
 
                         //If no commands have been inputted yet
-                        if (runningCommand == null)
+                        if (this.runningCommand == null)
                         {
                             //Search from masterlist
                             //Convert preview back into normal List
@@ -122,7 +131,7 @@ namespace txtedo.ViewModel
                         //Show list of child commands
                         else
                         {
-                            tempCommand = this.tran.GetFrom(new List<CommandPreview>(preview), thisCommand, runningCommand.childCommands);
+                            tempCommand = this.tran.GetFrom(new List<CommandPreview>(preview), thisCommand, this.runningCommand.childCommands);
                         }
 
                         //If no matches can be found stop
@@ -130,7 +139,7 @@ namespace txtedo.ViewModel
                         {
                             //None existent child command is used
                             //Reset preview
-                            preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", runningCommand.childCommands));
+                            preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", this.runningCommand.childCommands));
                             return;
                         }
                         //If the found command has children
@@ -139,7 +148,8 @@ namespace txtedo.ViewModel
                             //Show children
                             preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", tempCommand.childCommands));
                             //Store current command
-                            runningCommand = tempCommand;
+                            this.runningCommand = tempCommand;
+                            commandStack.Add(this.runningCommand);
                         }
                         //Next input must be option
                         else
@@ -149,19 +159,20 @@ namespace txtedo.ViewModel
 
                             visiblePrompt = tempCommand.command;
 
-                            runningCommand = tempCommand;
+                            this.runningCommand = tempCommand;
+                            commandStack.Add(this.runningCommand);
                         }
                     }
                 }
                 else
                 {
-                    if (runningCommand == null)
+                    if (this.runningCommand == null)
                     {
                         preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(currentCommand));
                     }
                     else
                     {
-                        preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(currentCommand, runningCommand.childCommands));
+                        preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(currentCommand, this.runningCommand.childCommands));
                     }
                 }
             }
@@ -198,14 +209,30 @@ namespace txtedo.ViewModel
         //Move back up the command tree by one
         public void BackUpCommand()
         {
-            if (runningCommand == null || currentCommand.Length != 0)
+            if (this.runningCommand == null || currentCommand.Length != 0)
             {
                 //No parent
                 ChangeInput();
             }
             else
             {
-                preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(runningCommand.parent));
+                if (commandStack.Count == 1)
+                {
+                    //Return to master list
+                    preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(""));
+                    visiblePrompt = "Your Command";
+                    runningCommand = null;
+                }
+                else if (commandStack.Count > 1)
+                {
+                    preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", commandStack[commandStack.Count - 2].childCommands));
+
+                    Command oldCommand = commandStack[commandStack.Count - 2];
+                    visiblePrompt = oldCommand.command;
+                    this.runningCommand = oldCommand;
+                }
+
+                commandStack.RemoveAt(commandStack.Count - 1);
             }
         }
 
