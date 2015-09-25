@@ -1,13 +1,15 @@
-import sys
+﻿import sys
 sys.path.append("modules/Lib")
 import webbrowser
 new = 2
 
 true = True
 
-def Start():
-    print sys.path
-    return ["search", "Search google", "web"]
+def Start(messenger):
+    messenger.command = "search"
+    messenger.desc = "Search google"
+    messenger.parent = "web"
+    return messenger
 
 def Run(query):
     url = "http://www.google.com/search?q=" + query
