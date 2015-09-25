@@ -5,7 +5,7 @@
         xmlns:ViewModel="clr-namespace:txtedo.ViewModel"
         Title="MainWindow" Height="400" Width="400" ResizeMode="NoResize" WindowStyle="None" Background="Black" Top="100" Left="100">
     <Window.Resources>
-        <ViewModel:TxtedoBarViewModel x:Key="tbvm"></ViewModel:TxtedoBarViewModel>
+        <ViewModel:TxtedoBarViewModel x:Key="tbvm" />
     </Window.Resources>
     <Grid x:Name="txtedoWindow" Height="50" VerticalAlignment="Bottom">
         <Label x:Name="lblPrompt" Content="{Binding LblPrompt, Source={StaticResource tbvm}}" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Background="#FF474747" Width="345" Foreground="Gray" FontFamily="Hack" FontSize="35"/>
