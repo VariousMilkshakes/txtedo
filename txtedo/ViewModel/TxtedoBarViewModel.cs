@@ -99,7 +99,7 @@ namespace txtedo.ViewModel
                     return 0;
 
                 }
-                return (bar.CommandPreview.Count * 20) + 35; 
+                return (bar.CommandPreview.Count * 25) + 5;
             }
 
             set { return; }
@@ -109,7 +109,7 @@ namespace txtedo.ViewModel
         {
             get
             {
-                bar.height = PreviewHeight + 50;
+                bar.height = PreviewHeight + 30;
                 return bar.height;
             }
             //For some reason it will only update if the binding is twoway

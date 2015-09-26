@@ -9,61 +9,144 @@
         <ViewModel:TxtedoBarViewModel x:Key="tbvm" />
     </Window.Resources>
     <Window.Left>
-        <Binding Mode="TwoWay" Path="LeftLock" Source="{StaticResource tbvm}"/>
+        <Binding Mode="TwoWay"
+                 Path="LeftLock"
+                 Source="{StaticResource tbvm}"/>
     </Window.Left>
     <Window.Top>
-        <Binding Mode="TwoWay" Path="TopLock" Source="{StaticResource tbvm}"/>
+        <Binding Mode="TwoWay"
+                 Path="TopLock"
+                 Source="{StaticResource tbvm}"/>
     </Window.Top>
     <Window.Height>
-        <Binding Mode="TwoWay" Path="WindowHeight" Source="{StaticResource tbvm}"/>
+        <Binding Mode="TwoWay"
+                 Path="WindowHeight"
+                 Source="{StaticResource tbvm}"/>
     </Window.Height>
-    <Grid x:Name="TxtedoWindow" Height="49" VerticalAlignment="Bottom">
-        <Label x:Name="lblPrompt" Content="{Binding LblPrompt, Source={StaticResource tbvm}}" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Background="#FF474747" Width="370" Foreground="Gray" FontFamily="Hack" FontSize="18" Margin="0,20,0,-1"/>
-        <TextBox x:Name="CommandBox" HorizontalAlignment="Left" TextWrapping="Wrap" Width="370" Background="{x:Null}" Foreground="White" BorderBrush="#FF474747" FontFamily="Hack" FontSize="18" SelectionBrush="#FF474747" VerticalAlignment="Bottom" Text="{Binding TxtCommandInput, Mode=TwoWay, Source={StaticResource tbvm}, UpdateSourceTrigger=PropertyChanged}">
+    <Grid x:Name="TxtedoWindow"
+          Margin="0,-1,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="153*"/>
+            <ColumnDefinition Width="46*"/>
+            <ColumnDefinition Width="201*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="lblPrompt"
+               Content="{Binding LblPrompt, Source={StaticResource tbvm}}"
+               HorizontalAlignment="Left"
+               Height="30"
+               VerticalAlignment="Bottom"
+               Background="#FF474747"
+               Width="370"
+               Foreground="Gray"
+               FontFamily="Hack"
+               FontSize="18"
+               Grid.ColumnSpan="3"/>
+        <TextBox x:Name="CommandBox"
+                 HorizontalAlignment="Left"
+                 TextWrapping="Wrap"
+                 Width="370"
+                 Background="{x:Null}"
+                 Foreground="White"
+                 BorderBrush="#FF474747"
+                 FontFamily="Hack"
+                 FontSize="18"
+                 SelectionBrush="#FF474747"
+                 VerticalAlignment="Bottom"
+                 Text="{Binding TxtCommandInput, Mode=TwoWay, Source={StaticResource tbvm}, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.ColumnSpan="3" Height="29">
             <TextBox.InputBindings>
-                <KeyBinding Key="Return" Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
-                <KeyBinding Key="Enter" Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
-                <KeyBinding Key="Back" Command="{Binding backUpInput, Mode=OneWay, Source={StaticResource tbvm}}" />
+                <KeyBinding Key="Return"
+                            Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
+                <KeyBinding Key="Enter"
+                            Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
+                <KeyBinding Key="Back"
+                            Command="{Binding backUpInput, Mode=OneWay, Source={StaticResource tbvm}}" />
             </TextBox.InputBindings>
         </TextBox>
-        <Button Content="❯" HorizontalAlignment="Left" Margin="375,0,0,-1" Width="25" Height="31" BorderBrush="#FFFDFDFD" Foreground="White" FontSize="22" FontFamily="Hack" VerticalAlignment="Bottom" RenderTransformOrigin="0.467,-0.1" BorderThickness="0" ClipToBounds="False" Click="Button_Click" Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}" Background="Black"/>
-        <DataGrid x:Name="CommandPreview" HorizontalAlignment="Left" Margin="0,-236,0,35" VerticalAlignment="Bottom" RenderTransformOrigin="-4,-3.923" Width="400" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" GridLinesVisibility="Vertical" HeadersVisibility="None" FrozenColumnCount="2" Background="#FF474747" AutoGenerateColumns="False" BorderBrush="#FF343434" Foreground="Black" CanUserResizeRows="False" RowDetailsVisibilityMode="Visible" SelectionUnit="Cell" SelectedCellsChanged="DataGrid_SelectedCellsChanged" SelectionChanged="DataGrid_SelectionChanged">
-            <DataGrid.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
-					Color="#474747"/>
-            </DataGrid.Resources>
-            <DataGrid.Height>
-                <Binding Mode="OneWay" Path="PreviewHeight" Source="{StaticResource tbvm}"/>
-            </DataGrid.Height>
-            <DataGrid.ItemsSource>
-                <Binding Path="Preview" Source="{StaticResource tbvm}"/>
-            </DataGrid.ItemsSource>
-            <DataGrid.RowBackground>
-                <Brush>#FF474747</Brush>
-            </DataGrid.RowBackground>
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding name}" Width="100" Foreground="#FDFDFD" FontFamily="Hack" FontSize="18">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style>
-                            <Setter Property="TextBlock.Background" Value="#FF474747"/>
-                            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center" />
+        <Button Content="❯"
+                HorizontalAlignment="Left"
+                Margin="175.667,0,0,0"
+                Width="25" Height="29"
+                BorderBrush="#FFFDFDFD"
+                Foreground="White"
+                FontSize="22"
+                FontFamily="Hack"
+                VerticalAlignment="Bottom"
+                RenderTransformOrigin="0.467,-0.1"
+                BorderThickness="0"
+                ClipToBounds="False"
+                Click="Button_Click"
+                Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"
+                Background="Black"
+                Grid.Column="2"/>
 
-                            <Setter Property="TextBlock.Padding" Value="10,0,0,0"/>
+        <Label Content="{Binding LblQuote, Mode=OneWay, Source={StaticResource tbvm}}"
+               HorizontalAlignment="Left"
+               Margin="176.667,-36,0,0"
+               VerticalAlignment="Top"
+               Foreground="White"
+               FontFamily="Hack"
+               FontSize="35"
+               Height="28"
+               RenderTransformOrigin="0.476,0.545"
+               Grid.Column="2"/>
+        <ListView x:Name="previewCommands" 
+                  HorizontalAlignment="Left"
+                  Height="{Binding PreviewHeight, Source={StaticResource tbvm}}"
+                  Margin="0,0,0,29"
+                  Width="400"
+                  Grid.ColumnSpan="3"
+                  ItemsSource="{Binding Preview, Source={StaticResource tbvm}}"
+                  Background="Gray"
+                  BorderBrush="Black"
+                  Foreground="#FFCACACA"
+                  VerticalAlignment="Bottom"
+                  FontFamily="Microsoft New Tai Lue"
+                  FontSize="18" BorderThickness="0">
+            <ListView.Resources>
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border BorderBrush="Transparent"
+                                        BorderThickness="0"
+                                        Background="{TemplateBinding Background}">
+                                    <GridViewRowPresenter HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          Width="Auto"
+                                                          Margin="0"
+                                                          Content="{TemplateBinding Content}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Height" Value="25"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" 
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="Transparent"/>
+                            <Setter Property="BorderBrush"
+                                    Value="Transparent"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="GridViewColumnHeader">
+                            <Setter Property="Visibility"
+                                    Value="Collapsed"/>
                         </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn  Width="300" Binding="{Binding tip}" FontFamily="Hack" FontSize="12" Foreground="#FFFDFDFD">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style>
-                            <Setter Property="TextBlock.Background" Value="#FF474747"/>
-                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
-                            <Setter Property="TextBlock.Padding" Value="23,0,0,0"/>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Label Content="{Binding LblQuote, Mode=OneWay, Source={StaticResource tbvm}}" HorizontalAlignment="Left" Margin="376,-36,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Hack" FontSize="35" Height="28" RenderTransformOrigin="0.476,0.545"/>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridViewColumn DisplayMemberBinding="{Binding name}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding tip}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
