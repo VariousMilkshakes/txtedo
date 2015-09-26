@@ -149,7 +149,7 @@ namespace txtedo.ViewModel
 
         private int taskbarHeight
         {
-            get { return (Screen.PrimaryScreen.Bounds.Height - Screen.PrimaryScreen.WorkingArea.Height) / 2; }
+            get { return (Screen.PrimaryScreen.Bounds.Height - Screen.PrimaryScreen.WorkingArea.Height); }
         }
 
         //UI events
