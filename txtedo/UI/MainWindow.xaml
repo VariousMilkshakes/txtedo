@@ -4,12 +4,18 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:ViewModel="clr-namespace:txtedo.ViewModel"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Name="Main" mc:Ignorable="d" x:Class="txtedo.MainWindow"
-        Title="MainWindow" Width="400" ResizeMode="NoResize" WindowStyle="None" Background="Black" Top="100" Left="100">
+        Title="MainWindow" Width="400" ResizeMode="NoResize" WindowStyle="None" Background="Black">
     <Window.Resources>
         <ViewModel:TxtedoBarViewModel x:Key="tbvm" />
     </Window.Resources>
+    <Window.Left>
+        <Binding Mode="TwoWay" Path="LeftLock" Source="{StaticResource tbvm}"/>
+    </Window.Left>
+    <Window.Top>
+        <Binding Mode="TwoWay" Path="TopLock" Source="{StaticResource tbvm}"/>
+    </Window.Top>
     <Window.Height>
-        <Binding Mode="OneWay" Path="WindowHeight" Source="{StaticResource tbvm}"/>
+        <Binding Mode="TwoWay" Path="WindowHeight" Source="{StaticResource tbvm}"/>
     </Window.Height>
     <Grid x:Name="TxtedoWindow" Height="49" VerticalAlignment="Bottom">
         <Label x:Name="lblPrompt" Content="{Binding LblPrompt, Source={StaticResource tbvm}}" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Background="#FF474747" Width="370" Foreground="Gray" FontFamily="Hack" FontSize="18" Margin="0,20,0,-1"/>

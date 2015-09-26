@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Forms;
 
 using txtedo.Module.Control;
 
@@ -100,15 +101,56 @@ namespace txtedo.ViewModel
                 }
                 return (bar.CommandPreview.Count * 20) + 35; 
             }
+
+            set { return; }
         }
 
         public int WindowHeight
         {
-            get { return PreviewHeight + 29; }
+            get
+            {
+                bar.height = PreviewHeight + 50;
+                return bar.height;
+            }
+            //For some reason it will only update if the binding is twoway
+            set { return; }
         }
 
+        public double LeftLock
+        {
+            get
+            {
+                double pageWidth = (double)SystemParameters.PrimaryScreenWidth;
+                pageWidth -= bar.width;
+                return pageWidth;
+            }
 
+            set { return; }
+        }
 
+        public double TopLock
+        {
+            get
+            {
+                double pageHeight = (double)SystemParameters.PrimaryScreenHeight;
+
+                if (bar.height == 0)
+                {
+                    bar.height = WindowHeight;
+                }
+
+                pageHeight -= bar.height;
+                pageHeight -= taskbarHeight;
+                return pageHeight;
+            }
+
+            set { return; }
+        }
+
+        private int taskbarHeight
+        {
+            get { return (Screen.PrimaryScreen.Bounds.Height - Screen.PrimaryScreen.WorkingArea.Height) / 2; }
+        }
 
         //UI events
         private void SubmitCommand()
@@ -151,6 +193,7 @@ namespace txtedo.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs("LblQuote"));
                 PropertyChanged(this, new PropertyChangedEventArgs("WindowHeight"));
                 PropertyChanged(this, new PropertyChangedEventArgs("PreviewHeight"));
+                PropertyChanged(this, new PropertyChangedEventArgs("TopLock"));
             }
         }
 
