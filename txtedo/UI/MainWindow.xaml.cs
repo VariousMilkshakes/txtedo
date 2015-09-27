@@ -1,32 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
-using System.IO;
-
 using txtedo.ViewModel;
-using txtedo.Module;
-using txtedo.Module.Control;
+
 
 namespace txtedo
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public double pageHeight;
         public double pageWidth;
@@ -78,6 +63,7 @@ namespace txtedo
             }
         }
 
+
         //Update feedback box
         public void UpdateFeedback()
         {
@@ -122,5 +108,24 @@ namespace txtedo
                 }
             }
         }
+
+        private void UnselectCells(DataGrid dg)
+        {
+            dg.UnselectAll();
+            dg.UnselectAllCells();
+        }
+
+        private void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            UnselectCells(sender as DataGrid);
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var obj = sender as DataGrid;
+            UnselectCells(obj);
+           
+        }
+
     }
 }

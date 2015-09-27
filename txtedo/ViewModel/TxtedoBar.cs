@@ -17,8 +17,10 @@ namespace txtedo.ViewModel
         public string options;
         public string currentCommand;
         public bool inQuotes = false;
+        public int width = 400;
 
         private string hiddenPrompt;
+        private int windowHeight;
 
         private Dictionary dict;
         private Translator tran;
@@ -35,12 +37,20 @@ namespace txtedo.ViewModel
             visiblePrompt = "Your Command";
             currentCommand = "";
 
+           
+
             //Collect commands
             this.dict = new Dictionary();
             this.tran = new Translator(dict);
             preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
-
+            
             commandStack = new List<Command>();
+        }
+
+        public int height
+        {
+            get { return this.windowHeight; }
+            set { this.windowHeight = value; }
         }
 
         public void SendCommand()

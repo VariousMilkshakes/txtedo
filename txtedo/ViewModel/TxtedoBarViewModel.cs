@@ -5,7 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Forms;
 
 using txtedo.Module.Control;
 
@@ -84,6 +87,69 @@ namespace txtedo.ViewModel
         public ObservableCollection<CommandPreview> Preview
         {
             get { return bar.CommandPreview; }
+            
+        }
+
+        public int PreviewHeight
+        {
+            get
+            {
+                if (bar.CommandPreview == null)
+                {
+                    return 0;
+
+                }
+                return (bar.CommandPreview.Count * 25) + 5;
+            }
+
+            set { return; }
+        }
+
+        public int WindowHeight
+        {
+            get
+            {
+                bar.height = PreviewHeight + 30;
+                return bar.height;
+            }
+            //For some reason it will only update if the binding is twoway
+            set { return; }
+        }
+
+        public double LeftLock
+        {
+            get
+            {
+                double pageWidth = (double)SystemParameters.PrimaryScreenWidth;
+                pageWidth -= bar.width;
+                return pageWidth;
+            }
+
+            set { return; }
+        }
+
+        public double TopLock
+        {
+            get
+            {
+                double pageHeight = (double)SystemParameters.PrimaryScreenHeight;
+
+                if (bar.height == 0)
+                {
+                    bar.height = WindowHeight;
+                }
+
+                pageHeight -= bar.height;
+                pageHeight -= taskbarHeight;
+                return pageHeight;
+            }
+
+            set { return; }
+        }
+
+        private int taskbarHeight
+        {
+            get { return (Screen.PrimaryScreen.Bounds.Height - Screen.PrimaryScreen.WorkingArea.Height); }
         }
 
         //UI events
@@ -125,6 +191,9 @@ namespace txtedo.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs("LblPrompt"));
                 PropertyChanged(this, new PropertyChangedEventArgs("Preview"));
                 PropertyChanged(this, new PropertyChangedEventArgs("LblQuote"));
+                PropertyChanged(this, new PropertyChangedEventArgs("WindowHeight"));
+                PropertyChanged(this, new PropertyChangedEventArgs("PreviewHeight"));
+                PropertyChanged(this, new PropertyChangedEventArgs("TopLock"));
             }
         }
 

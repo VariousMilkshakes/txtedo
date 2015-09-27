@@ -809,6 +809,40 @@
     </Content>
     <Content Include="Lib\pydoc_data\topics.py" />
     <Content Include="Lib\pydoc_data\__init__.py" />
+<<<<<<< HEAD
+    <Content Include="Lib\py_compile.py" />
+    <Content Include="Lib\Queue.py" />
+    <Content Include="Lib\quopri.py" />
+    <Content Include="Lib\random.py" />
+    <Content Include="Lib\repr.py" />
+    <Content Include="Lib\rexec.py" />
+    <Content Include="Lib\rfc822.py" />
+    <Content Include="Lib\rlcompleter.py" />
+    <Content Include="Lib\robotparser.py" />
+    <Content Include="Lib\runpy.py" />
+    <Content Include="Lib\sched.py" />
+    <Content Include="Lib\sets.py" />
+    <Content Include="Lib\sgmllib.py" />
+    <Content Include="Lib\sha.py" />
+    <Content Include="Lib\shelve.py" />
+    <Content Include="Lib\shlex.py" />
+    <Content Include="Lib\shutil.py" />
+    <Content Include="Lib\SimpleHTTPServer.py" />
+    <Content Include="Lib\SimpleXMLRPCServer.py" />
+    <Content Include="Lib\site.py" />
+    <Content Include="Lib\_abcoll.py" />
+    <Content Include="Lib\_LWPCookieJar.py" />
+    <Content Include="Lib\_MozillaCookieJar.py" />
+    <Content Include="Lib\_pyio.py" />
+    <Content Include="Lib\_strptime.py" />
+    <Content Include="Lib\_threading_local.py" />
+    <Content Include="Lib\_weakrefset.py" />
+    <Content Include="Lib\__future__.py" />
+    <Content Include="Lib\__phello__.foo.py" />
+    <Content Include="modules\file-test.py" />
+    <Content Include="modules\file.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+=======
     <Content Include="Lib\py_compile.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -895,6 +929,7 @@
     </Content>
     <Content Include="Lib\__phello__.foo.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+>>>>>>> master
     </Content>
     <Resource Include="Lib\site-packages\README.txt" />
     <Content Include="Lib\smtpd.py">
