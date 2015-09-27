@@ -68,30 +68,30 @@ namespace txtedo.Module.Control
                     dynamic module = ipy.UseFile(file);
 
                     //Every module must have start function
-                    var info = module.Start(); 
+                    CommandMessenger info = module.Start(new CommandMessenger());
 
                     //Command for module
                     Command newCommand;
                     
                     //Check if python had provided info
-                    if (info[0] != "")
+                    if (info.command != "")
                     {
-                        if (info[1] == "")
+                        if (info.desc == "")
                         {
                             //Fallback to command name as tool tip
-                            info[1] = info[0];
+                            info.desc = info.command;
                         }
 
                         //Create command for module
-                        newCommand = new Command(module, info[0], info[1]);
+                        newCommand = new Command(module, info.command, info.desc);
 
-                        Console.WriteLine("File: {0}, {1} now imported!", file, info[0]);
+                        Console.WriteLine("File: {0}, {1} now imported!", file, info.command);
 
                         //If module has a parent
-                        if (info.Count == 3)
+                        if (info.parent != "")
                         {
                             //Turn command into child, without parent
-                            YoungChild lostChild = new YoungChild(info[2], newCommand, lostChildren.Count);
+                            YoungChild lostChild = new YoungChild(info.parent, newCommand, lostChildren.Count);
                             lostChildren.Add(lostChild);
                         }
                         else
@@ -133,7 +133,7 @@ namespace txtedo.Module.Control
                                 //Add child command to parent
                                 parent.NewChild(lostChild.me);
                                 //Remove paired child from list
-                                lostChildren.RemoveAt(lostChild.at);
+                                lostChildren.RemoveAt(0);
                             }
                         }
                     }
