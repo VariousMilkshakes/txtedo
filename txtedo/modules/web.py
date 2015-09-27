@@ -5,9 +5,10 @@ new = 2
 
 true = True
 
-def Start():
-    print sys.path
-    return ["web", "Jump into the cyber-nets"]
+def Start(messenger):
+    messenger.command = "web"
+    messenger.desc = "Jump into the cyber-nets"
+    return messenger
 
 def Run(query):
     url = "http://www." + query

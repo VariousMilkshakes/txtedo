@@ -17,6 +17,8 @@ namespace txtedo.Module
         public List<Command> childCommands = new List<Command>();
         //Controller to invoke rules from
         public dynamic module;
+        //Command triggers
+        public List<string> triggers;
 
         public Command (dynamic script, string name, string tip = "")
         {
@@ -38,5 +40,13 @@ namespace txtedo.Module
         {
             childCommands.Add(child);
         }
+    }
+
+    public class CommandMessenger
+    {
+        public string command = "";
+        public string desc = "";
+        public string parent = "";
+        public List<string> triggers = new List<string>();
     }
 }
