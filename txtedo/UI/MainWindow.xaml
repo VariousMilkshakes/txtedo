@@ -1,4 +1,4 @@
-﻿<Window
+<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
@@ -63,7 +63,6 @@
                             Command="{Binding backUpInput, Mode=OneWay, Source={StaticResource tbvm}}" />
             </TextBox.InputBindings>
         </TextBox>
-<<<<<<< HEAD
         <Button Content="❯"
                 HorizontalAlignment="Left"
                 Margin="175.667,0,0,0"
@@ -142,15 +141,6 @@
                         <Style TargetType="GridViewColumnHeader">
                             <Setter Property="Visibility"
                                     Value="Collapsed"/>
-=======
-        <Button Content="❯" HorizontalAlignment="Left" Margin="350,0,0,0" Width="50" Height="50" Background="#FF474747" BorderBrush="#FF474747" Foreground="White" FontSize="22" FontFamily="Hack" VerticalAlignment="Bottom" RenderTransformOrigin="0.467,-0.1" BorderThickness="1,1,1,1" ClipToBounds="False" Click="Button_Click" Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
-        <DataGrid HorizontalAlignment="Left" Margin="0,-353,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4,-3.923" Width="400" Height="348" ItemsSource="{Binding Preview, Source={StaticResource tbvm}}" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" GridLinesVisibility="Vertical" HeadersVisibility="None" FrozenColumnCount="2" Background="#FF474747" AutoGenerateColumns="False" BorderBrush="#FF343434" Foreground="Black" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding name}" Width="100" Foreground="Black" FontFamily="Hack" FontSize="18">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style>
-                            <Setter Property="TextBlock.VerticalAlignment" Value="Center" />
->>>>>>> master
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
                     <GridViewColumn DisplayMemberBinding="{Binding name}"/>
