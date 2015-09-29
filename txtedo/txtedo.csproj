@@ -570,6 +570,8 @@
     <Content Include="Lib\_weakrefset.py" />
     <Content Include="Lib\__future__.py" />
     <Content Include="Lib\__phello__.foo.py" />
+    <Content Include="modules\account-manager-add.py" />
+    <Content Include="modules\account-manager.py" />
     <Resource Include="Lib\site-packages\README.txt" />
     <Content Include="Lib\smtpd.py" />
     <Content Include="Lib\smtplib.py" />
