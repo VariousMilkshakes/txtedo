@@ -143,8 +143,8 @@
                                     Value="Collapsed"/>
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
-                    <GridViewColumn DisplayMemberBinding="{Binding name}"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding tip}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding name}" Width="80"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding tip}" Width="310"/>
                 </GridView>
             </ListView.View>
         </ListView>

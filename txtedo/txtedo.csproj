@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -91,6 +91,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Background\Ghost.cs" />
+    <Compile Include="Background\globalKeyboardHook.cs" />
     <Compile Include="Module\Control\CommandPreview.cs" />
     <Compile Include="Module\Control\Translator.cs" />
     <Compile Include="ViewModel\InputListener.cs" />
@@ -568,10 +570,6 @@
     <Content Include="Lib\_weakrefset.py" />
     <Content Include="Lib\__future__.py" />
     <Content Include="Lib\__phello__.foo.py" />
-    <Content Include="modules\file-test.py" />
-    <Content Include="modules\file.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Lib\site-packages\README.txt" />
     <Content Include="Lib\smtpd.py" />
     <Content Include="Lib\smtplib.py" />

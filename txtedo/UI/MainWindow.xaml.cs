@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using txtedo.ViewModel;
+using txtedo.Background;
 
 
 namespace txtedo
@@ -19,8 +20,11 @@ namespace txtedo
 
         public MainWindow()
         {
-
             InitializeComponent();
+
+            Ghost backgroundWorker = new Ghost(this);
+            backgroundWorker.Bind();
+            backgroundWorker.Phase();
 
             LockPosition();
 
