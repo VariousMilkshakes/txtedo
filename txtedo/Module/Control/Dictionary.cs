@@ -30,12 +30,29 @@ namespace txtedo.Module.Control
             }
         }
 
+        private string[] FindModules(string path="modules/")
+        {
+            return Directory.GetDirectories(path);
+        }
+
         public Dictionary ()
         {
             //Get all python modules in folder
-            string[] fileNames = Directory.GetFiles("modules/", "*.py");
+            //string[] fileNames = Directory.GetFiles("modules/", "*.py");
+            string[] moduleNames = FindModules();
+            List<string> fileNames = new List<string>();
+            foreach (string module in moduleNames)
+            {
+                if (module == "modules/Lib")  { continue; }
+                string[] tmp = Directory.GetFiles(module + "/", "*.py");               
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    fileNames.Add(tmp[i]);
+                }
+            }
+            //Directory.GetFiles(moduleNames + "/", "*.py");
             Console.WriteLine("FILES:");
-            Console.WriteLine(fileNames[0]);
+            //Console.WriteLine(fileNames[0]);
 
             List<dynamic> modules = new List<dynamic>();
 
