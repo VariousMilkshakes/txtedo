@@ -43,7 +43,8 @@ namespace txtedo.Module.Control
             List<string> fileNames = new List<string>();
             foreach (string module in moduleNames)
             {
-                string[] tmp = Directory.GetFiles(module + "/", "*.py");
+                if (module == "modules/Lib")  { continue; }
+                string[] tmp = Directory.GetFiles(module + "/", "*.py");               
                 for (int i = 0; i < tmp.Length; i++)
                 {
                     fileNames.Add(tmp[i]);
