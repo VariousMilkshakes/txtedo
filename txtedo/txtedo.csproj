@@ -564,10 +564,6 @@
     <Content Include="Lib\_weakrefset.py" />
     <Content Include="Lib\__future__.py" />
     <Content Include="Lib\__phello__.foo.py" />
-<<<<<<< HEAD
-    <Content Include="modules\account-manager-add.py" />
-    <Content Include="modules\account-manager.py" />
-=======
     <Content Include="modules\account-manager\account-manager-add.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -586,7 +582,6 @@
     <Content Include="modules\web-utils\web.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
->>>>>>> script-support
     <Resource Include="Lib\site-packages\README.txt" />
     <Content Include="Lib\smtpd.py" />
     <Content Include="Lib\smtplib.py" />
