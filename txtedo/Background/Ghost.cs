@@ -54,10 +54,10 @@ namespace txtedo.Background
             hook.HookedKeys.Add(Keys.Alt);
             hook.HookedKeys.Add(Keys.X);
 
-            hook.KeyDown += new KeyEventHandler(this.OpenTxtedo);
+            hook.KeyDown += new KeyEventHandler(this.ToggleTxtedo);
         }
 
-        private void OpenTxtedo(object sender, KeyEventArgs e)
+        private void ToggleTxtedo(object sender, KeyEventArgs e)
         {
             Console.WriteLine("WELOP");
 
