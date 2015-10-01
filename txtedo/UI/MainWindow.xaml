@@ -4,10 +4,17 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:ViewModel="clr-namespace:txtedo.ViewModel"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Name="Main" mc:Ignorable="d" x:Class="txtedo.MainWindow"
-        Title="MainWindow" Width="400" ResizeMode="NoResize" WindowStyle="None" Background="Black">
+        Title="MainWindow"
+        Width="400"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="Black">
     <Window.Resources>
         <ViewModel:TxtedoBarViewModel x:Key="tbvm" />
     </Window.Resources>
+    <Window.Visibility>
+        <Binding Mode="OneWay" Path="visibility" Source="{StaticResource tbvm}"/>
+    </Window.Visibility>
     <Window.Left>
         <Binding Mode="TwoWay"
                  Path="LeftLock"
@@ -61,6 +68,7 @@
                             Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
                 <KeyBinding Key="Back"
                             Command="{Binding backUpInput, Mode=OneWay, Source={StaticResource tbvm}}" />
+                <KeyBinding Key="Escape" Command="{Binding phaseOutBar, Mode=OneWay, Source={StaticResource tbvm}}" />
             </TextBox.InputBindings>
         </TextBox>
         <Button Content="❯"

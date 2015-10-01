@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Forms;
 
 using txtedo.Module.Control;
+using txtedo.Background;
 
 namespace txtedo.ViewModel
 {
@@ -21,12 +22,21 @@ namespace txtedo.ViewModel
         //Event handlers
         private InputListener ilr_SendCommand;
         private InputListener ilr_BackUpCommand;
+        private InputListener ilr_HideBarCommand;
+
+        //Background Process Manager
+        private Ghost spooky;
 
         public TxtedoBarViewModel ()
         {
+            spooky = new Ghost();
+            spooky.Bind(ChangeVisibility);
+            bar.barVisibility = spooky.Phase();
+
             //Pass txtedo bar commands to listener
             ilr_SendCommand = new InputListener(this.SubmitCommand, bar.IsValid);
             ilr_BackUpCommand = new InputListener(this.BackUp, bar.IsValid);
+            ilr_HideBarCommand = new InputListener(this.ChangeVisibility, bar.IsValid);
         }
 
         //Give XML access to ICommand
@@ -38,6 +48,11 @@ namespace txtedo.ViewModel
         public ICommand backUpInput
         {
             get { return ilr_BackUpCommand; }
+        }
+
+        public ICommand phaseOutBar
+        {
+            get { return ilr_HideBarCommand; }
         }
 
         //Quote Alert
@@ -116,6 +131,16 @@ namespace txtedo.ViewModel
             set { return; }
         }
 
+        public string visibility
+        {
+            get { return bar.barVisibility; }
+            set
+            {
+                bar.barVisibility = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("visibility"));
+            }
+        }
+
         public double LeftLock
         {
             get
@@ -180,6 +205,13 @@ namespace txtedo.ViewModel
             }
 
             this.RefreshAll();
+        }
+
+        private void ChangeVisibility()
+        {
+            visibility = spooky.Phase();
+            //Apparently key bindings can only be used once??
+            spooky.Bind(ChangeVisibility);
         }
 
         //Refresh every UI element

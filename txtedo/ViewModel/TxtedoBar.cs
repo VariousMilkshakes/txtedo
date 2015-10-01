@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 using txtedo.Module;
 using txtedo.Module.Control;
+using txtedo.Background;
 
 namespace txtedo.ViewModel
 {
@@ -16,10 +18,13 @@ namespace txtedo.ViewModel
         public string command;
         public string options;
         public string currentCommand;
+
         public bool inQuotes = false;
+
         public int width = 400;
 
         private string hiddenPrompt;
+        private string visibleState;
         private int windowHeight;
 
         private Dictionary dict;
@@ -37,8 +42,6 @@ namespace txtedo.ViewModel
             visiblePrompt = "Your Command";
             currentCommand = "";
 
-           
-
             //Collect commands
             this.dict = new Dictionary();
             this.tran = new Translator(dict);
@@ -51,6 +54,19 @@ namespace txtedo.ViewModel
         {
             get { return this.windowHeight; }
             set { this.windowHeight = value; }
+        }
+
+        public string barVisibility
+        {
+            get
+            {
+                return this.visibleState;
+            }
+
+            set
+            {
+                this.visibleState = value;
+            }
         }
 
         public void SendCommand()

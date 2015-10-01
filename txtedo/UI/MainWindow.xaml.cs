@@ -22,10 +22,6 @@ namespace txtedo
         {
             InitializeComponent();
 
-            Ghost backgroundWorker = new Ghost(this);
-            backgroundWorker.Bind();
-            backgroundWorker.Phase();
-
             LockPosition();
 
             //ToggleFeedback();

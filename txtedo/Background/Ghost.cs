@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 using Utilities;
 
@@ -11,39 +12,44 @@ namespace txtedo.Background
 {
     class Ghost
     {
-        private MainWindow txtedoBar;
-
         private bool isVisible;
 
-        public Ghost(MainWindow txtBar)
+        private Action phaseEvent;
+
+        public Ghost()
         {
-            this.txtedoBar = txtBar;
             this.isVisible = true;
         }
 
-        public void Phase()
+        public string Phase()
         {
+            string state = "";
+
             if (this.isVisible)
             {
-                txtedoBar.Hide();
-
                 this.isVisible = false;
+
+                state = "Hidden";
             }
             else
             {
-                txtedoBar.Show();
-
                 this.isVisible = true;
+
+                state = "Visible";
             }
+
+            return state;
         }
 
         public void TypeFocus()
         {
-            txtedoBar.CommandBox.Focus();
+            //txtedoBar.CommandBox.Focus();
         }
 
-        public void Bind()
+        public void Bind(Action bindEvent)
         {
+            this.phaseEvent = bindEvent;
+
             this.CreateBinding();
         }
 
@@ -61,8 +67,7 @@ namespace txtedo.Background
         {
             Console.WriteLine("WELOP");
 
-            this.Phase();
-            this.TypeFocus();
+            this.phaseEvent();
         }
     }
 }
