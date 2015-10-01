@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel;
 
+using txtedo.Properties;
+
+using Hardcodet.Wpf.TaskbarNotification;
+
 using Utilities;
 
 namespace txtedo.Background

@@ -4,6 +4,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:ViewModel="clr-namespace:txtedo.ViewModel"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Name="Main" mc:Ignorable="d" x:Class="txtedo.MainWindow"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="MainWindow"
         Width="400"
         ResizeMode="NoResize"
@@ -37,6 +38,11 @@
             <ColumnDefinition Width="46*"/>
             <ColumnDefinition Width="201*"/>
         </Grid.ColumnDefinitions>
+        <tb:TaskbarIcon
+            IconSource="/Icons/headicon.ico"
+            ToolTip="Txtedo">
+            
+        </tb:TaskbarIcon>
         <Label x:Name="lblPrompt"
                Content="{Binding LblPrompt, Source={StaticResource tbvm}}"
                HorizontalAlignment="Left"
