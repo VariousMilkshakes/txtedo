@@ -151,6 +151,7 @@
   <ItemGroup>
     <Content Include="Explorer.py" />
     <Resource Include="Icons\headicon.ico" />
+    <Resource Include="Icons\tuxicon.ico" />
     <Content Include="Lib\abc.py" />
     <Content Include="Lib\aifc.py" />
     <Content Include="Lib\antigravity.py" />

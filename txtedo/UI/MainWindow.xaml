@@ -39,7 +39,7 @@
             <ColumnDefinition Width="201*"/>
         </Grid.ColumnDefinitions>
         <tb:TaskbarIcon
-            IconSource="/Icons/headicon.ico"
+            IconSource="/Icons/tuxicon.ico"
             ToolTip="Txtedo">
             
         </tb:TaskbarIcon>
