@@ -14,7 +14,7 @@ using Utilities;
 
 namespace txtedo.Background
 {
-    class Ghost
+    public class Ghost
     {
         private bool isVisible;
 
@@ -23,6 +23,8 @@ namespace txtedo.Background
         public Ghost()
         {
             this.isVisible = true;
+
+            this.CreateTux();
         }
 
         public string Phase()
@@ -57,6 +59,11 @@ namespace txtedo.Background
             this.CreateBinding();
         }
 
+        public void ReBind()
+        {
+            this.CreateBinding();
+        }
+
         private void CreateBinding()
         {
             globalKeyboardHook hook = new globalKeyboardHook();
@@ -65,6 +72,29 @@ namespace txtedo.Background
             hook.HookedKeys.Add(Keys.X);
 
             hook.KeyDown += new KeyEventHandler(this.ToggleTxtedo);
+        }
+
+        private void CreateTux()
+        {
+            TaskbarIcon tux = new TaskbarIcon();
+            tux.Icon = Resources.tuxicon;
+            tux.ToolTipText = "Txtedo";
+
+            //Controls.ContextMenu tuxMenu = new ContextMenu();
+            System.Windows.Controls.ContextMenu tuxMenu = new System.Windows.Controls.ContextMenu();
+
+            System.Windows.Controls.MenuItem settingsItem = new System.Windows.Controls.MenuItem();
+            settingsItem.Header = "Settings";
+            System.Windows.Controls.MenuItem openItem = new System.Windows.Controls.MenuItem();
+            openItem.Header = "Open";
+            System.Windows.Controls.MenuItem closeItem = new System.Windows.Controls.MenuItem();
+            closeItem.Header = "Close";
+
+            tuxMenu.Items.Add(settingsItem);
+            tuxMenu.Items.Add(openItem);
+            tuxMenu.Items.Add(closeItem);
+
+            tux.ContextMenu = tuxMenu;
         }
 
         private void ToggleTxtedo(object sender, KeyEventArgs e)

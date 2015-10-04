@@ -133,25 +133,24 @@ namespace txtedo.Module.Control
                 //Loop through every child
                 if (lostChildren.Count > 0)
                 {
-                    for (int i = 0; i < lostChildren.Count; i++)
+                    YoungChild lostChild = lostChildren[0];
+
+                    //Parent command to pair with
+                    string targetParent = lostChild.parentCommand;
+
+                    //Check with each parent
+                    for (int c = 0; c < commandHolder.Count; c++)
                     {
-                        YoungChild lostChild = lostChildren[i];
+                        Command parent = commandHolder[c];
 
-                        //Parent command to pair with
-                        string targetParent = lostChild.parentCommand;
-
-                        //Check with each parent
-                        for (int c = 0; c < commandHolder.Count; c++)
+                        if (parent.command == targetParent)
                         {
-                            Command parent = commandHolder[c];
+                            //Add child command to parent
+                            parent.NewChild(lostChild.me);
+                            //Remove paired child from list
+                            lostChildren.RemoveAt(0);
 
-                            if (parent.command == targetParent)
-                            {
-                                //Add child command to parent
-                                parent.NewChild(lostChild.me);
-                                //Remove paired child from list
-                                lostChildren.RemoveAt(0);
-                            }
+                            break;
                         }
                     }
                 }

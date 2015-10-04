@@ -9,9 +9,15 @@
         Width="400"
         ResizeMode="NoResize"
         WindowStyle="None"
-        Background="Black">
+        Background="Black"
+        Topmost="True">
     <Window.Resources>
         <ViewModel:TxtedoBarViewModel x:Key="tbvm" />
+        <ContextMenu x:Key="tuxIconMenu">
+            <MenuItem Header="Settings"/>
+            <MenuItem Header="Open"/>
+            <MenuItem Header="Close"/>
+        </ContextMenu>
     </Window.Resources>
     <Window.Visibility>
         <Binding Mode="OneWay" Path="visibility" Source="{StaticResource tbvm}"/>
@@ -38,11 +44,6 @@
             <ColumnDefinition Width="46*"/>
             <ColumnDefinition Width="201*"/>
         </Grid.ColumnDefinitions>
-        <tb:TaskbarIcon
-            IconSource="/Icons/tuxicon.ico"
-            ToolTip="Txtedo">
-            
-        </tb:TaskbarIcon>
         <Label x:Name="lblPrompt"
                Content="{Binding LblPrompt, Source={StaticResource tbvm}}"
                HorizontalAlignment="Left"
@@ -66,7 +67,8 @@
                  SelectionBrush="#FF474747"
                  VerticalAlignment="Bottom"
                  Text="{Binding TxtCommandInput, Mode=TwoWay, Source={StaticResource tbvm}, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.ColumnSpan="3" Height="29">
+                 Grid.ColumnSpan="3"
+                 Height="29">
             <TextBox.InputBindings>
                 <KeyBinding Key="Return"
                             Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>

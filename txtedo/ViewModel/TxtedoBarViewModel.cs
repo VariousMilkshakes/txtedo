@@ -32,6 +32,7 @@ namespace txtedo.ViewModel
             spooky = new Ghost();
             spooky.Bind(ChangeVisibility);
             bar.barVisibility = spooky.Phase();
+            bar.ghost = spooky;
 
             //Pass txtedo bar commands to listener
             ilr_SendCommand = new InputListener(this.SubmitCommand, bar.IsValid);

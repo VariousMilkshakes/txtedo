@@ -35,6 +35,8 @@ namespace txtedo.ViewModel
         //Commands used by user
         private List<Command> commandStack;
 
+        private Ghost bgManager;
+
         //BACK END CONTROL FOR UI OPERATIONS
         public TxtedoBar()
         {
@@ -69,6 +71,12 @@ namespace txtedo.ViewModel
             }
         }
 
+        public Ghost ghost
+        {
+            get { return this.bgManager; }
+            set { this.bgManager = value; }
+        }
+
         public void SendCommand()
         {
             bool complete = false;
@@ -76,6 +84,8 @@ namespace txtedo.ViewModel
             if (preview.Count != 0 || runningCommand != null)
             {
                 complete = this.tran.Run(this.runningCommand.module, currentCommand);
+                bgManager.Phase();
+                bgManager.ReBind();
 
                 if (complete)
                 {

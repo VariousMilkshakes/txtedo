@@ -22,6 +22,8 @@ namespace txtedo
         {
             InitializeComponent();
 
+            this.IsVisibleChanged += new DependencyPropertyChangedEventHandler(this.PhaseChange);
+
             LockPosition();
 
             //ToggleFeedback();
@@ -69,6 +71,15 @@ namespace txtedo
         {
             //CollectionViewSource feedbackViewSource = (CollectionViewSource)(FindResource("feedbackData"));
             //feedbackViewSource.Source = feedbackList;
+        }
+
+        private void PhaseChange(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            //If bar becomes visible
+            if ((bool)e.NewValue == true)
+            {
+                CommandBox.Focus();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
