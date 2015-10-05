@@ -99,9 +99,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Background\Ghost.cs" />
+    <Compile Include="Background\GhostCommands.cs" />
     <Compile Include="Background\globalKeyboardHook.cs" />
     <Compile Include="Module\Control\CommandPreview.cs" />
     <Compile Include="Module\Control\Translator.cs" />
+    <Compile Include="UI\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\InputListener.cs" />
     <Compile Include="ViewModel\TxtedoBar.cs" />
     <Compile Include="ViewModel\TxtedoBarViewModel.cs" />
@@ -119,6 +123,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

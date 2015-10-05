@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 
 using txtedo.Properties;
+using txtedo.ViewModel;
 
 using Hardcodet.Wpf.TaskbarNotification;
 
@@ -20,11 +21,15 @@ namespace txtedo.Background
 
         private Action phaseEvent;
 
+        private GhostCommands commands;
+
         public Ghost()
         {
             this.isVisible = true;
 
             this.CreateTux();
+
+            commands = new GhostCommands();
         }
 
         public string Phase()
@@ -85,10 +90,13 @@ namespace txtedo.Background
 
             System.Windows.Controls.MenuItem settingsItem = new System.Windows.Controls.MenuItem();
             settingsItem.Header = "Settings";
+            settingsItem.Click += delegate { commands.openSettings(); };
             System.Windows.Controls.MenuItem openItem = new System.Windows.Controls.MenuItem();
             openItem.Header = "Open";
+            openItem.Click += delegate { this.phaseEvent(); };
             System.Windows.Controls.MenuItem closeItem = new System.Windows.Controls.MenuItem();
             closeItem.Header = "Close";
+            closeItem.Click += delegate { commands.exitTxtedo(); };
 
             tuxMenu.Items.Add(settingsItem);
             tuxMenu.Items.Add(openItem);

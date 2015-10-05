@@ -211,8 +211,17 @@ namespace txtedo.ViewModel
         private void ChangeVisibility()
         {
             visibility = spooky.Phase();
-            //Apparently key bindings can only be used once??
-            spooky.Bind(ChangeVisibility);
+
+            //bar.ResetBar();
+
+             if (visibility == "Hidden")
+             {
+                 bar.ResetBar();
+                 this.RefreshAll();
+
+                 //Apparently key bindings can only be used once??
+                 spooky.Bind(ChangeVisibility);
+             }
         }
 
         //Refresh every UI element

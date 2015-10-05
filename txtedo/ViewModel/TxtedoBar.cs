@@ -52,6 +52,19 @@ namespace txtedo.ViewModel
             commandStack = new List<Command>();
         }
 
+        //Reset all txtedo bar settings
+        public void ResetBar()
+        {
+            visiblePrompt = "Your Command";
+            currentCommand = "";
+
+            preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
+
+            this.runningCommand = null;
+
+            commandStack = new List<Command>();
+        }
+
         public int height
         {
             get { return this.windowHeight; }

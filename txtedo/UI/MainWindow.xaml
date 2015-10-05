@@ -13,11 +13,6 @@
         Topmost="True">
     <Window.Resources>
         <ViewModel:TxtedoBarViewModel x:Key="tbvm" />
-        <ContextMenu x:Key="tuxIconMenu">
-            <MenuItem Header="Settings"/>
-            <MenuItem Header="Open"/>
-            <MenuItem Header="Close"/>
-        </ContextMenu>
     </Window.Resources>
     <Window.Visibility>
         <Binding Mode="OneWay" Path="visibility" Source="{StaticResource tbvm}"/>
