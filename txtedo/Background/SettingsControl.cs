@@ -38,6 +38,9 @@ namespace txtedo.Background
                 case "10.0":
                     winVer = 10;
                     break;
+                default:
+                    winVer = 7;
+                    break;
             }
 
             return winVer;
