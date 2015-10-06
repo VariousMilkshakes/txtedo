@@ -26,6 +26,7 @@ namespace txtedo.ViewModel
 
         //Background Process Manager
         private Ghost spooky;
+        private SettingsControl settings;
 
         public TxtedoBarViewModel ()
         {
@@ -33,6 +34,9 @@ namespace txtedo.ViewModel
             spooky.Bind(ChangeVisibility);
             bar.barVisibility = spooky.Phase();
             bar.ghost = spooky;
+
+            settings = new SettingsControl();
+            
 
             //Pass txtedo bar commands to listener
             ilr_SendCommand = new InputListener(this.SubmitCommand, bar.IsValid);
@@ -175,7 +179,17 @@ namespace txtedo.ViewModel
 
         private int taskbarHeight
         {
-            get { return (Screen.PrimaryScreen.Bounds.Height - Screen.PrimaryScreen.WorkingArea.Height); }
+            get
+            {
+                if (settings.OSVerion() <= 7)
+                {
+                    return (Screen.PrimaryScreen.Bounds.Height - Screen.PrimaryScreen.WorkingArea.Height);
+                }
+                else
+                {
+                    return (Screen.PrimaryScreen.Bounds.Height - Screen.PrimaryScreen.WorkingArea.Height) / 2;
+                }
+            }
         }
 
         //UI events

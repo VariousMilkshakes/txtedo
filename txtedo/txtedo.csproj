@@ -101,6 +101,7 @@
     <Compile Include="Background\Ghost.cs" />
     <Compile Include="Background\GhostCommands.cs" />
     <Compile Include="Background\globalKeyboardHook.cs" />
+    <Compile Include="Background\SettingsControl.cs" />
     <Compile Include="Module\Control\CommandPreview.cs" />
     <Compile Include="Module\Control\Translator.cs" />
     <Compile Include="UI\SettingsWindow.xaml.cs">
@@ -591,6 +592,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="modules\file-manager\file.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="modules\web-utils\web-reddit.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="modules\web-utils\web-netflix.py">
