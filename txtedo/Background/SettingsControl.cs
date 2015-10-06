@@ -10,12 +10,13 @@ namespace txtedo.Background
     {
         public int OSVerion()
         {
-            string[] versionString = Environment.OSVersion.ToString().Split(' ');
-            string versionNumber = versionString[versionString.Length - 1];
+            //string[] versionString = Environment.OSVersion.ToString().Split(' ');
+            //string versionNumber =
 
-            string[] versionParts = versionNumber.Split('.');
+            //string[] versionParts = versionNumber.Split('.');
 
-            string totalVersion = versionParts[0] + "." + versionParts[1];
+            string totalVersion =  Environment.OSVersion.Version.Major.ToString() +
+                                   Environment.OSVersion.Version.MajorRevision;
 
             int winVer = 0;
             
