@@ -11,7 +11,7 @@ namespace txtedo.Module.Control
     {
         //List of all commands
         private List<Command> masterList;
-        private List<CommandPreview> previewList;
+        private List<PreviewItem> previewList;
 
         public Translator(Dictionary dictionary)
         {
@@ -19,14 +19,14 @@ namespace txtedo.Module.Control
         }
 
         //Returns all parent commands in CommandPreview Format
-        public List<CommandPreview> GetAll()
+        public List<PreviewItem> GetAll()
         {
-            List<CommandPreview> preview = new List<CommandPreview>();
+            List<PreviewItem> preview = new List<PreviewItem>();
 
             foreach(Command command in masterList)
             {
                 //Convert command to CommandPreview
-                CommandPreview cp = new CommandPreview(command);
+                PreviewItem cp = new PreviewItem(command);
                 preview.Add(cp);
             }
 
@@ -35,10 +35,10 @@ namespace txtedo.Module.Control
         }
 
         //Return best match CommandPreview from displayed commands for user input
-        private CommandPreview BestMatch(List<CommandPreview> commands, string input)
+        private PreviewItem BestMatch(List<PreviewItem> commands, string input)
         {
             //Similar to QueryTop process
-            foreach (CommandPreview command in commands)
+            foreach (PreviewItem command in commands)
             {
                 int index = 0;
                 int roof = input.Length;
@@ -68,10 +68,10 @@ namespace txtedo.Module.Control
         }
 
         //Turn user input into command
-        public Command GetFrom(List<CommandPreview> currentOptions, string choice, List<Command> from = null)
+        public Command GetFrom(List<PreviewItem> currentOptions, string choice, List<Command> from = null)
         {
             this.previewList = currentOptions;
-            CommandPreview visualRef = BestMatch(currentOptions, choice);
+            PreviewItem visualRef = BestMatch(currentOptions, choice);
 
             if (visualRef != null)
             {
@@ -120,7 +120,7 @@ namespace txtedo.Module.Control
             return success;
         }
 
-        public List<CommandPreview> QueryAllIn(string command, List<Command> collection = null)
+        public List<PreviewItem> QueryAllIn(string command, List<Command> collection = null)
         {
             if (collection == null)
             {
@@ -128,7 +128,7 @@ namespace txtedo.Module.Control
             }
 
             //Narrowed list of commands from query
-            List<CommandPreview> smallList = new List<CommandPreview>();
+            List<PreviewItem> smallList = new List<PreviewItem>();
 
             string query = command.Split(' ')[0];
 
@@ -164,7 +164,7 @@ namespace txtedo.Module.Control
 
                 if (match)
                 {
-                    smallList.Add(new CommandPreview(com));
+                    smallList.Add(new PreviewItem(com));
                 }
 
             }

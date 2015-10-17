@@ -8,6 +8,7 @@ using System.ComponentModel;
 
 using txtedo.Module;
 using txtedo.Module.Control;
+using txtedo.Module.Control.API;
 using txtedo.Background;
 
 namespace txtedo.ViewModel
@@ -29,7 +30,7 @@ namespace txtedo.ViewModel
 
         private Dictionary dict;
         private Translator tran;
-        private ObservableCollection<CommandPreview> preview;
+        private ObservableCollection<PreviewItem> preview;
 
         private Command runningCommand;
         //Commands used by user
@@ -37,17 +38,19 @@ namespace txtedo.ViewModel
 
         private Ghost bgManager;
 
+        private const string PROMPT_DEFAULT = "Your Command";
+
         //BACK END CONTROL FOR UI OPERATIONS
-        public TxtedoBar()
+        public TxtedoBar(List<baseAPI> apis)
         {
             //Prompt on start up
-            visiblePrompt = "Your Command";
+            visiblePrompt = PROMPT_DEFAULT;
             currentCommand = "";
 
             //Collect commands
-            this.dict = new Dictionary();
+            this.dict = new Dictionary(apis);
             this.tran = new Translator(dict);
-            preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
+            preview = new ObservableCollection<PreviewItem>(this.tran.GetAll());
             
             commandStack = new List<Command>();
         }
@@ -58,7 +61,7 @@ namespace txtedo.ViewModel
             visiblePrompt = "Your Command";
             currentCommand = "";
 
-            preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
+            preview = new ObservableCollection<PreviewItem>(this.tran.GetAll());
 
             this.runningCommand = null;
 
@@ -104,14 +107,15 @@ namespace txtedo.ViewModel
                 {
                     Console.WriteLine("Command finished");
 
-                    preview = new ObservableCollection<CommandPreview>(this.tran.GetAll());
+                    preview = new ObservableCollection<PreviewItem>(this.tran.GetAll());
                     //Reset after command is run
                     this.runningCommand = null;
                     commandStack = new List<Command>();
+                    this.visiblePrompt = PROMPT_DEFAULT;
                 }
                 else
                 {
-                    Console.WriteLine("Command failed");
+                    Console.WriteLine("Command async");
                 }
             } 
         }
@@ -128,11 +132,11 @@ namespace txtedo.ViewModel
                 //Display full list
                 if (this.runningCommand == null)
                 {
-                    preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(""));
+                    preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn(""));
                 }
                 else
                 {
-                    preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", this.runningCommand.childCommands));
+                    preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn("", this.runningCommand.childCommands));
                 }
             }
             else
@@ -142,6 +146,7 @@ namespace txtedo.ViewModel
                 //Hide prompt
                 visiblePrompt = "";
 
+                //Proceed to next command on space
                 if (currentCommand[currentCommand.Length - 1] == ' ')
                 {
                     //Check if input isn't in quotes or is confirmed option
@@ -155,6 +160,7 @@ namespace txtedo.ViewModel
                         string thisCommand = currentCommand.Remove(currentCommand.Length - 1, 1);
 
                         Command tempCommand;
+                        //Clear input
                         currentCommand = "";
 
                         //If no commands have been inputted yet
@@ -162,25 +168,25 @@ namespace txtedo.ViewModel
                         {
                             //Search from masterlist
                             //Convert preview back into normal List
-                            tempCommand = this.tran.GetFrom(new List<CommandPreview>(preview), thisCommand);
+                            tempCommand = this.tran.GetFrom(new List<PreviewItem>(preview), thisCommand);
 
                             try
                             {
                                 //Show command as prompt
-                                visiblePrompt = tempCommand.command;
+                                visiblePrompt = tempCommand.commandTip;
                             }
                             catch
                             {
                                 //If user trys to use no existent command
                                 //Reset list
-                                preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(""));
+                                preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn(""));
                                 return;
                             }
                         }
                         //Show list of child commands
                         else
                         {
-                            tempCommand = this.tran.GetFrom(new List<CommandPreview>(preview), thisCommand, this.runningCommand.childCommands);
+                            tempCommand = this.tran.GetFrom(new List<PreviewItem>(preview), thisCommand, this.runningCommand.childCommands);
                         }
 
                         //If no matches can be found stop
@@ -188,14 +194,14 @@ namespace txtedo.ViewModel
                         {
                             //None existent child command is used
                             //Reset preview
-                            preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", this.runningCommand.childCommands));
+                            preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn("", this.runningCommand.childCommands));
                             return;
                         }
                         //If the found command has children
                         else if (tempCommand.childCommands.Count > 0)
                         {
                             //Show children
-                            preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", tempCommand.childCommands));
+                            preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn("", tempCommand.childCommands));
                             //Store current command
                             this.runningCommand = tempCommand;
                             commandStack.Add(this.runningCommand);
@@ -203,13 +209,23 @@ namespace txtedo.ViewModel
                         //Next input must be option
                         else
                         {
-                            //Clear prompts
-                            preview = null;
-
-                            visiblePrompt = tempCommand.command;
-
                             this.runningCommand = tempCommand;
-                            commandStack.Add(this.runningCommand);
+
+                            if (this.runningCommand.hasQuery)
+                            {
+                                //Clear prompts
+                                preview = null;
+
+                                visiblePrompt = this.runningCommand.command;
+
+                                
+                                commandStack.Add(this.runningCommand);
+                            }
+                            else
+                            {
+                                //Run module with no query
+                                SendCommand();
+                            }
                         }
                     }
                 }
@@ -217,11 +233,11 @@ namespace txtedo.ViewModel
                 {
                     if (this.runningCommand == null)
                     {
-                        preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(currentCommand));
+                        preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn(currentCommand));
                     }
                     else
                     {
-                        preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(currentCommand, this.runningCommand.childCommands));
+                        preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn(currentCommand, this.runningCommand.childCommands));
                     }
                 }
             }
@@ -268,13 +284,13 @@ namespace txtedo.ViewModel
                 if (commandStack.Count == 1)
                 {
                     //Return to master list
-                    preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn(""));
+                    preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn(""));
                     visiblePrompt = "Your Command";
                     runningCommand = null;
                 }
                 else if (commandStack.Count > 1)
                 {
-                    preview = new ObservableCollection<CommandPreview>(this.tran.QueryAllIn("", commandStack[commandStack.Count - 2].childCommands));
+                    preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn("", commandStack[commandStack.Count - 2].childCommands));
 
                     Command oldCommand = commandStack[commandStack.Count - 2];
                     visiblePrompt = oldCommand.command;
@@ -285,9 +301,10 @@ namespace txtedo.ViewModel
             }
         }
 
-        public ObservableCollection<CommandPreview> CommandPreview
+        public ObservableCollection<PreviewItem> CommandPreview
         {
             get { return this.preview; }
+            set { this.preview = value; }
         }
 
         //UI Validation

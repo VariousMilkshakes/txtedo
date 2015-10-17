@@ -4,11 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using txtedo.Properties;
+
 namespace txtedo.Background
 {
     class SettingsControl
     {
-        public int OSVerion()
+        public SettingsControl ()
+        {
+            //Persistent Settings
+            Settings.Default.WinVersion = OSVerion();
+
+            Settings.Default.Save();
+
+            //Session Settings
+
+        }
+
+        private int OSVerion()
         {
             //string[] versionString = Environment.OSVersion.ToString().Split(' ');
             //string versionNumber =
@@ -23,7 +36,7 @@ namespace txtedo.Background
             switch (totalVersion)
             {
                 //Win 7
-                case "6.1":
+                case "60":
                     winVer = 7;
                     break;
                 //Win 8
@@ -35,7 +48,7 @@ namespace txtedo.Background
                     winVer = 81;
                     break;
                 //Win 10
-                case "10.0":
+                case "100":
                     winVer = 10;
                     break;
                 default:

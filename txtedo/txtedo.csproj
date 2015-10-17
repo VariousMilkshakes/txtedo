@@ -36,6 +36,12 @@
   <PropertyGroup>
     <ApplicationIcon>Icons\tuxicon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>txtedo.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Hardcodet.NotifyIcon.Wpf.1.0.5\lib\net45\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
@@ -102,6 +108,8 @@
     <Compile Include="Background\GhostCommands.cs" />
     <Compile Include="Background\globalKeyboardHook.cs" />
     <Compile Include="Background\SettingsControl.cs" />
+    <Compile Include="Module\Control\API\baseAPI.cs" />
+    <Compile Include="Module\Control\API\PythonApi.cs" />
     <Compile Include="Module\Control\CommandPreview.cs" />
     <Compile Include="Module\Control\Translator.cs" />
     <Compile Include="UI\SettingsWindow.xaml.cs">
@@ -147,6 +155,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="ClassDiagram1.cd" />
     <None Include="Lib\ensurepip\_bundled\pip-1.5.6-py2.py3-none-any.whl" />
     <None Include="Lib\ensurepip\_bundled\setuptools-3.6-py2.py3-none-any.whl" />
@@ -592,6 +601,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="modules\file-manager\file.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="modules\settings\settings.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="modules\web-utils\web-reddit.py">

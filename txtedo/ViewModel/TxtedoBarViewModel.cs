@@ -11,13 +11,14 @@ using System.Windows.Input;
 using System.Windows.Forms;
 
 using txtedo.Module.Control;
+using txtedo.Module.Control.API;
 using txtedo.Background;
 
 namespace txtedo.ViewModel
 {
     public class TxtedoBarViewModel : INotifyPropertyChanged
     {
-        private TxtedoBar bar = new TxtedoBar();
+        private TxtedoBar bar;
 
         //Event handlers
         private InputListener ilr_SendCommand;
@@ -30,6 +31,16 @@ namespace txtedo.ViewModel
 
         public TxtedoBarViewModel ()
         {
+            //TODO: Create all api objects here then pass them down to dictionary
+            //APIs
+            PythonApi pyAPI = new PythonApi(this, ".py");
+
+            //Collect apis together
+            List<baseAPI> apiStack = new List<baseAPI>();
+            apiStack.Add(pyAPI);
+
+            bar = new TxtedoBar(apiStack);
+
             spooky = new Ghost();
             spooky.Bind(ChangeVisibility);
             bar.barVisibility = spooky.Phase();
@@ -104,10 +115,10 @@ namespace txtedo.ViewModel
         }
 
         //Binds List of current availible commands to list
-        public ObservableCollection<CommandPreview> Preview
+        public ObservableCollection<PreviewItem> Preview
         {
             get { return bar.CommandPreview; }
-            
+            set { bar.CommandPreview = value; }
         }
 
         public int PreviewHeight
@@ -181,7 +192,7 @@ namespace txtedo.ViewModel
         {
             get
             {
-                if (settings.OSVerion() <= 7)
+                if (Properties.Settings.Default.WinVersion <= 7)
                 {
                     return (Screen.PrimaryScreen.Bounds.Height - Screen.PrimaryScreen.WorkingArea.Height);
                 }

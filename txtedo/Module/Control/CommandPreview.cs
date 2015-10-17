@@ -2,12 +2,18 @@
 
 namespace txtedo.Module.Control
 {
-    public class CommandPreview
+    public class PreviewItem
     {
         private string commandTitle;
         private string commandTip;
 
-        public CommandPreview (Command c)
+        public PreviewItem()
+        {
+            this.commandTitle = "none set";
+            this.commandTip = "";
+        }
+
+        public PreviewItem (Command c)
         {
             this.commandTitle = c.command;
             this.commandTip = c.commandTip;

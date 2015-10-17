@@ -19,6 +19,8 @@ namespace txtedo.Module
         public dynamic module;
         //Command triggers
         public List<string> triggers;
+        //Pass initial query
+        public bool hasQuery;
 
         public Command (dynamic script, string name, string tip = "")
         {
@@ -48,5 +50,6 @@ namespace txtedo.Module
         public string desc = "";
         public string parent = "";
         public List<string> triggers = new List<string>();
+        public bool hasInitialQuery = true;
     }
 }
