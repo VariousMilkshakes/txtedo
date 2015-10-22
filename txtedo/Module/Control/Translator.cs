@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace txtedo.Module.Control
 {
     class Translator
     {
-        //List of all commands
+        //List of all commands;
         private List<Command> masterList;
         private List<PreviewItem> previewList;
 
@@ -109,8 +110,11 @@ namespace txtedo.Module.Control
 
             if (options == "")
             {
+                
+
                 //Run python without parameters
                 temp = module.Run();
+                
             }
             else
             {
@@ -182,5 +186,10 @@ namespace txtedo.Module.Control
             this.previewList = smallList;
             return smallList;
         }
+    }
+
+    class ActiveThread
+    {
+        public static 
     }
 }
