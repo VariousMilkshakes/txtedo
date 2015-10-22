@@ -99,7 +99,7 @@ namespace txtedo.ViewModel
 
             if (preview.Count != 0 || runningCommand != null)
             {
-                complete = this.tran.Run(this.runningCommand.module, currentCommand);
+                complete = this.tran.Run(this.runningCommand.module, runningCommand.wait, currentCommand);
                 bgManager.Phase();
                 bgManager.ReBind();
 

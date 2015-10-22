@@ -101,20 +101,30 @@ namespace txtedo.Module.Control
         }
 
         //Run dynamic module from command
-        public bool Run(dynamic module, string options = "")
+        public bool Run(dynamic module, bool isAsync, string options = "")
         {
             //Check if the python was successfull
             bool success = false;
+            object temp;
 
             if (options == "")
             {
                 //Run python without parameters
-                success = module.Run();
+                temp = module.Run();
             }
             else
             {
                 //Run python with user parameters
-                success = module.Run(options);
+                temp = module.Run(options);
+            }
+
+            if (isAsync)
+            {
+                success = false;
+            }
+            else
+            {
+                success = (bool)temp;
             }
 
             return success;

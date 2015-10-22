@@ -108,6 +108,7 @@ namespace txtedo.Module.Control
                             //Create command for module
                             newCommand = new Command(module, info.command, info.desc);
                             newCommand.hasQuery = info.hasInitialQuery;
+                            newCommand.wait = info.isAsync;
 
                             Console.WriteLine("File: {0}, {1} now imported!", file, info.command);
 
