@@ -21,6 +21,10 @@ namespace txtedo.Module
         public List<string> triggers;
         //Pass initial query
         public bool hasQuery;
+        //Language of module
+        public string language;
+        //Async Module?
+        public bool isAsync;
 
         public Command (dynamic script, string name, string tip = "")
         {
@@ -51,5 +55,6 @@ namespace txtedo.Module
         public string parent = "";
         public List<string> triggers = new List<string>();
         public bool hasInitialQuery = true;
+        public bool isAsync = false;
     }
 }

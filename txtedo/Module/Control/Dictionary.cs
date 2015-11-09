@@ -88,7 +88,6 @@ namespace txtedo.Module.Control
                     {
                         //New instance
                         dynamic module = ipy.UseFile(file);
-                        module.SetVariable("PyAPI", api);
 
                         //Every module must have start function
                         CommandMessenger info = module.Start(new CommandMessenger());
@@ -108,6 +107,9 @@ namespace txtedo.Module.Control
                             //Create command for module
                             newCommand = new Command(module, info.command, info.desc);
                             newCommand.hasQuery = info.hasInitialQuery;
+                            newCommand.language = "python";
+                            newCommand.isAsync = info.isAsync;
+
 
                             Console.WriteLine("File: {0}, {1} now imported!", file, info.command);
 

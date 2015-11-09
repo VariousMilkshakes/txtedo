@@ -73,7 +73,6 @@ namespace txtedo.Background
         {
             globalKeyboardHook hook = new globalKeyboardHook();
 
-            hook.HookedKeys.Add(Keys.Alt);
             hook.HookedKeys.Add(Keys.X);
 
             hook.KeyDown += new KeyEventHandler(this.ToggleTxtedo);
@@ -107,9 +106,10 @@ namespace txtedo.Background
 
         private void ToggleTxtedo(object sender, KeyEventArgs e)
         {
-            Console.WriteLine("WELOP");
-
-            this.phaseEvent();
+            if (Control.ModifierKeys == Keys.Alt)
+            {
+                this.phaseEvent();
+            }
         }
     }
 }

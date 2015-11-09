@@ -49,7 +49,7 @@ namespace txtedo.ViewModel
 
             //Collect commands
             this.dict = new Dictionary(apis);
-            this.tran = new Translator(dict);
+            this.tran = new Translator(dict, apis);
             preview = new ObservableCollection<PreviewItem>(this.tran.GetAll());
             
             commandStack = new List<Command>();
@@ -93,17 +93,18 @@ namespace txtedo.ViewModel
             set { this.bgManager = value; }
         }
 
-        public void SendCommand()
+        public async void SendCommand()
         {
-            bool complete = false;
 
             if (preview.Count != 0 || runningCommand != null)
             {
-                complete = this.tran.Run(this.runningCommand.module, currentCommand);
+                bool finished = false;
+
+                finished = this.tran.Run(this.runningCommand, currentCommand);
                 bgManager.Phase();
                 bgManager.ReBind();
 
-                if (complete)
+                if (finished && !this.runningCommand.isAsync)
                 {
                     Console.WriteLine("Command finished");
 
@@ -115,7 +116,7 @@ namespace txtedo.ViewModel
                 }
                 else
                 {
-                    Console.WriteLine("Command async");
+                    Console.WriteLine("async");
                 }
             } 
         }

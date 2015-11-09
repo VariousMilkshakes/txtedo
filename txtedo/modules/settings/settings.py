@@ -10,7 +10,8 @@ PyAPI = None
 def Start(messenger):
     messenger.command = "settings"
     messenger.desc = "View and Modify txtedo settings"
-    messenger.hasInitialQuery = False;
+    messenger.hasInitialQuery = False
+    messenger.isAsync = True
     return messenger
 
 def Run():
@@ -27,5 +28,4 @@ def Run():
 
     print newPreview[0].name
     PyAPI.previewCustomList(newPreview)
-
-    return False
+    PyAPI.stop()

@@ -13,9 +13,12 @@ namespace txtedo.Module.Control
         private List<Command> masterList;
         private List<PreviewItem> previewList;
 
-        public Translator(Dictionary dictionary)
+        private List<Control.API.baseAPI> apis;
+
+        public Translator(Dictionary dictionary, List<Control.API.baseAPI> apiStack)
         {
             masterList = dictionary.commands;
+            this.apis = apiStack;
         }
 
         //Returns all parent commands in CommandPreview Format
@@ -101,23 +104,23 @@ namespace txtedo.Module.Control
         }
 
         //Run dynamic module from command
-        public bool Run(dynamic module, string options = "")
+        public bool Run(Command module, string options = "")
         {
             //Check if the python was successfull
-            bool success = false;
+            bool isRunning = true;
 
-            if (options == "")
+            ModuleHandler currentModule = new ModuleHandler(module, this.apis);
+
+            currentModule.runModule(options);
+
+            while(isRunning)
             {
-                //Run python without parameters
-                success = module.Run();
-            }
-            else
-            {
-                //Run python with user parameters
-                success = module.Run(options);
+                isRunning = currentModule.running;
+                System.Threading.Thread.Sleep(250);
+                Console.WriteLine(currentModule.running);
             }
 
-            return success;
+            return true;
         }
 
         public List<PreviewItem> QueryAllIn(string command, List<Command> collection = null)

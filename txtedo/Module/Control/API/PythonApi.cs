@@ -16,6 +16,8 @@ namespace txtedo.Module.Control.API
 
         public PreviewItem ListItem;
 
+        private ModuleHandler tgh;
+
         public PythonApi (TxtedoBarViewModel viewModel, string extention)
         {
             ListItem = new PreviewItem();
@@ -23,6 +25,26 @@ namespace txtedo.Module.Control.API
             fileExtention = extention;
 
             this.uiControl = viewModel;
+        }
+
+        public void setTriggerHandler(ModuleHandler mh)
+        {
+            this.tgh = mh;
+        }
+
+        public void stop()
+        {
+            this.tgh.stop();
+        }
+
+        public void newTriggers(string[] triggerIDs)
+        {
+
+        }
+
+        public void trigger(string triggerID)
+        {
+
         }
 
         //Loop through all settings and return list of viewable settings
