@@ -68,6 +68,11 @@ namespace txtedo.Module.Control
             this.targetModule = null;
         }
 
+        public void pause()
+        {
+            Thread.Sleep(Timeout.Infinite);
+        }
+
         //Grab relevant data from module
         private void extractModule(Command module, List<Control.API.baseAPI> apiStack)
         {

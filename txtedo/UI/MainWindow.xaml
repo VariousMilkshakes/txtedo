@@ -69,9 +69,8 @@
                             Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
                 <KeyBinding Key="Enter"
                             Command="{Binding submitInput, Mode=OneWay, Source={StaticResource tbvm}}"/>
-                <KeyBinding Key="Back"
-                            Command="{Binding backUpInput, Mode=OneWay, Source={StaticResource tbvm}}" />
                 <KeyBinding Key="Escape" Command="{Binding phaseOutBar, Mode=OneWay, Source={StaticResource tbvm}}" />
+                <KeyBinding Key="Back" Command="{Binding backUp, Mode=OneWay, Source={StaticResource tbvm}}" />
             </TextBox.InputBindings>
         </TextBox>
         <Button Content="❯"

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 
 using txtedo.Module;
@@ -13,20 +10,54 @@ using txtedo.Background;
 
 namespace txtedo.ViewModel
 {
+    /// <summary>
+    /// Class handles events and controls for the Txtedo View Model
+    /// </summary>
     public class TxtedoBar
     {
+
+        #region public fields
+        /// <summary>
+        /// Current prompt visible in bar
+        /// </summary>
         public string visiblePrompt;
-        public string command;
-        public string options;
+
+        /// <summary>
+        /// Current command input by user
+        /// </summary>
         public string currentCommand;
 
+
+        /// <summary>
+        /// Is current user input in quotes, this will disable submit command
+        /// </summary>
         public bool inQuotes = false;
 
-        public int width = 400;
 
+        /// <summary>
+        /// Width of Txtedo Bar
+        /// </summary>
+        public int width = 400;
+        #endregion
+
+        #region private variables
+        /// <summary>
+        /// Prompt which is hidden by user input
+        /// </summary>
         private string hiddenPrompt;
+
+        /// <summary>
+        /// Check whether Txtedo Bar is hidden or not
+        /// </summary>
         private string visibleState;
+
+        /// <summary>
+        /// Height of Txtedo Window as whole
+        /// </summary>
         private int windowHeight;
+        #endregion
+
+        #region private objects
 
         private Dictionary dict;
         private Translator tran;
@@ -37,82 +68,115 @@ namespace txtedo.ViewModel
         private List<Command> commandStack;
 
         private Ghost bgManager;
+        #endregion
 
+        /// <summary>
+        /// Prompt at startup
+        /// </summary>
         private const string PROMPT_DEFAULT = "Your Command";
 
-        //BACK END CONTROL FOR UI OPERATIONS
+        #region constructor
+        /// <summary>
+        /// Backend for UI operations
+        /// </summary>
+        /// <param name="apis">Stack of API for scripting languages</param>
         public TxtedoBar(List<baseAPI> apis)
         {
+
             //Prompt on start up
             visiblePrompt = PROMPT_DEFAULT;
+            
+            //Start with no command
             currentCommand = "";
 
-            //Collect commands
+            //Collect modules into dictionary
             this.dict = new Dictionary(apis);
+
             this.tran = new Translator(dict, apis);
+
+            //Display full list of commands
             preview = new ObservableCollection<PreviewItem>(this.tran.GetAll());
             
+            //Empty command history
             commandStack = new List<Command>();
+
         }
+        #endregion
 
-        //Reset all txtedo bar settings
-        public void ResetBar()
-        {
-            visiblePrompt = "Your Command";
-            currentCommand = "";
-
-            preview = new ObservableCollection<PreviewItem>(this.tran.GetAll());
-
-            this.runningCommand = null;
-
-            commandStack = new List<Command>();
-        }
-
+        #region public get/set
+        /// <summary>
+        /// Txtedo Window Height
+        /// </summary>
         public int height
         {
             get { return this.windowHeight; }
             set { this.windowHeight = value; }
         }
 
+        /// <summary>
+        /// Is Txtedo Visible or Hidden in Tray?
+        /// </summary>
         public string barVisibility
         {
-            get
-            {
-                return this.visibleState;
-            }
-
-            set
-            {
-                this.visibleState = value;
-            }
+            get { return this.visibleState; }
+            set { this.visibleState = value; }
         }
 
+        /// <summary>
+        /// Get / Set the Background and Hidden Worker
+        /// </summary>
         public Ghost ghost
         {
             get { return this.bgManager; }
             set { this.bgManager = value; }
         }
+        #endregion
 
-        public async void SendCommand()
+        /// <summary>
+        /// Reset to start up state
+        /// </summary>
+        public void ResetBar()
+        {
+            //Clean up txtedo bar
+            visiblePrompt = "Your Command";
+            currentCommand = "";
+
+            //Display full list of commands
+            preview = new ObservableCollection<PreviewItem>(this.tran.GetAll());
+
+            //Get rid of current command
+            this.runningCommand = null;
+
+            //Empty previous command history
+            commandStack = new List<Command>();
+        }
+
+        /// <summary>
+        /// Checks then sends current command to translator
+        /// </summary>
+        public void SendCommand()
         {
 
+            //Is there any commands to choose from? OR Is the user sending options
             if (preview.Count != 0 || runningCommand != null)
             {
+
+                //Check if module has finished successfully
                 bool finished = false;
 
+                //Send module to translator to run
                 finished = this.tran.Run(this.runningCommand, currentCommand);
+
+                //Hide Txtedo Bar then rebind key binding
                 bgManager.Phase();
                 bgManager.ReBind();
 
+                //Did the module complete fully? AND Module is inline
                 if (finished && !this.runningCommand.isAsync)
                 {
                     Console.WriteLine("Command finished");
 
-                    preview = new ObservableCollection<PreviewItem>(this.tran.GetAll());
-                    //Reset after command is run
-                    this.runningCommand = null;
-                    commandStack = new List<Command>();
-                    this.visiblePrompt = PROMPT_DEFAULT;
+                    ResetBar();
                 }
                 else
                 {
@@ -121,46 +185,65 @@ namespace txtedo.ViewModel
             } 
         }
 
+        /// <summary>
+        /// Big ol' conditional chain. Validates and increments user input.
+        /// </summary>
         public void ChangeInput()
         {
+            //Handle quote inputs
             QuoteFormatter();
 
+            //Is the input empty
             if (currentCommand == "")
             {
+
                 //Display hidden prompt
                 visiblePrompt = this.hiddenPrompt;
 
-                //Display full list
+                //Has a parent command been selected yet?
                 if (this.runningCommand == null)
                 {
+
                     preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn(""));
+
                 }
                 else
                 {
+
+                    //Display parent command's children
                     preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn("", this.runningCommand.childCommands));
+
                 }
+
             }
             else
             {
+
                 //Track prompt
                 this.hiddenPrompt = visiblePrompt;
                 //Hide prompt
                 visiblePrompt = "";
 
-                //Proceed to next command on space
+                //Has a space been used?
                 if (currentCommand[currentCommand.Length - 1] == ' ')
                 {
-                    //Check if input isn't in quotes or is confirmed option
+                    //Is input in quotes OR (is a command selected AND there is not children) = has to be option
                     if (this.inQuotes || this.runningCommand != null && this.runningCommand.childCommands.Count == 0)
                     {
+
+                        //Continue input
                         return;
+
                     }
                     else
                     {
-                        //Remove space from command
-                        string thisCommand = currentCommand.Remove(currentCommand.Length - 1, 1);
 
+                        //Remove space from the end of command
+                        string thisCommand = currentCommand.Remove(currentCommand.Length - 1, 1);
+                        
+                        //Breifly hold selected command
                         Command tempCommand;
+
                         //Clear input
                         currentCommand = "";
 
@@ -173,15 +256,19 @@ namespace txtedo.ViewModel
 
                             try
                             {
+
                                 //Show command as prompt
                                 visiblePrompt = tempCommand.commandTip;
+
                             }
                             catch
                             {
+
                                 //If user trys to use no existent command
                                 //Reset list
                                 preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn(""));
                                 return;
+
                             }
                         }
                         //Show list of child commands
@@ -244,6 +331,9 @@ namespace txtedo.ViewModel
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void QuoteFormatter()
         {
             //Toggle quotes on and off

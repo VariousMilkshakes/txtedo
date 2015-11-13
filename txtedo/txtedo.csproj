@@ -136,6 +136,7 @@
     <Compile Include="Background\GhostCommands.cs" />
     <Compile Include="Background\globalKeyboardHook.cs" />
     <Compile Include="Background\SettingsControl.cs" />
+    <Compile Include="Module\Control\API\Api.cs" />
     <Compile Include="Module\Control\API\baseAPI.cs" />
     <Compile Include="Module\Control\API\PythonApi.cs" />
     <Compile Include="Module\Control\CommandPreview.cs" />
@@ -145,6 +146,7 @@
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\InputListener.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TxtedoBar.cs" />
     <Compile Include="ViewModel\TxtedoBarViewModel.cs" />
     <Page Include="UI\MainWindow.xaml">
@@ -185,7 +187,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Lib\ensurepip\_bundled\pip-1.5.6-py2.py3-none-any.whl" />
     <None Include="Lib\ensurepip\_bundled\setuptools-3.6-py2.py3-none-any.whl" />
     <None Include="packages.config" />
@@ -200,7 +201,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Explorer.py" />
     <Resource Include="Icons\headicon.ico" />
     <Resource Include="Icons\tuxicon.ico" />
     <Content Include="Lib\abc.py" />

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace txtedo.ViewModel
@@ -10,25 +6,27 @@ namespace txtedo.ViewModel
     //User input passes through here then is redirected to the View Model Method
     public class InputListener : ICommand
     {
-        private Action WhatToExecute;
-        private Func<bool> WhenToExecute;
+        //Function to execute
+        private Action whatToExecute;
+        //Check whether to execute function
+        private Func<bool> whenToExecute;
+
+        public event EventHandler CanExecuteChanged;
 
         public InputListener (Action What, Func<bool> When)
         {
-            WhatToExecute = What;
-            WhenToExecute = When;
+            this.whatToExecute = What;
+            this.whenToExecute = When;
         }
 
         public bool CanExecute(object parameter)
         {
-            return WhenToExecute();
+            return this.whenToExecute();
         }
-
-        public event EventHandler CanExecuteChanged;
 
         public void Execute(object parameter)
         {
-            WhatToExecute();
+            this.whatToExecute();
         }
     }
 }

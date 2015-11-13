@@ -29,6 +29,8 @@ namespace txtedo.ViewModel
         private Ghost spooky;
         private SettingsControl settings;
 
+        private int cursorPosition;
+
         public TxtedoBarViewModel ()
         {
             //TODO: Create all api objects here then pass them down to dictionary
@@ -136,6 +138,14 @@ namespace txtedo.ViewModel
             set { return; }
         }
 
+        public int trackCursor
+        {
+            set
+            {
+                this.cursorPosition = value;
+            }
+        }
+
         public int WindowHeight
         {
             get
@@ -220,15 +230,15 @@ namespace txtedo.ViewModel
             Console.WriteLine("Back");
 
             //Default back functionality
-            if (bar.currentCommand.Length > 0)
-            {
-                bar.currentCommand = bar.currentCommand.Remove(bar.currentCommand.Length - 1, 1);
-                bar.ChangeInput();
-            }
-            else
-            {
+            //if (bar.currentCommand.Length > 0)
+            //{
+            //    bar.currentCommand = bar.currentCommand.Remove( - 1, 1);
+            //    bar.ChangeInput();
+            //}
+            //else
+            //{
                 bar.BackUpCommand();
-            }
+            //}
 
             this.RefreshAll();
         }

@@ -37,6 +37,10 @@ namespace txtedo.Module.Control.API
             this.tgh.stop();
         }
 
+        public void start()
+        {
+        }
+
         public void newTriggers(string[] triggerIDs)
         {
 
