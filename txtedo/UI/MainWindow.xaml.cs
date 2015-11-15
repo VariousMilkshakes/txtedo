@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using txtedo.ViewModel;
 using txtedo.Background;
@@ -102,7 +101,7 @@ namespace txtedo
             {
                 try
                 {
-                    ScriptRuntime pyRuntime = Python.CreateRuntime();
+                    /*ScriptRuntime pyRuntime = Python.CreateRuntime();
                     //Set Python variables
                     ScriptScope scope = pyRuntime.CreateScope();
                     scope.SetVariable("userInput", searchQuery);
@@ -111,7 +110,7 @@ namespace txtedo
                     //pyRuntime.ImportModule(@"modules/Lib");
 
                     dynamic script = pyRuntime.UseFile("modules/Explorer.py");
-                    script.Run(searchQuery);
+                    script.Run(searchQuery);*/
                 }
                 catch (Exception ex)
                 {

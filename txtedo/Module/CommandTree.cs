@@ -26,7 +26,7 @@ namespace txtedo.Module
         //Async Module?
         public bool isAsync;
 
-        public Command (dynamic script, string name, string tip = "")
+        public Command (dynamic script, string name, string tip, string lang, bool query, bool _async)
         {
             this.command = name;
 
@@ -39,6 +39,12 @@ namespace txtedo.Module
             this.commandTip = tip;
 
             this.module = script;
+
+            this.language = lang;
+
+            this.hasQuery = query;
+
+            this.isAsync = _async;
         }
 
         //Add child command to command

@@ -36,6 +36,7 @@ namespace txtedo.ViewModel
             //TODO: Create all api objects here then pass them down to dictionary
             //APIs
             PythonApi pyAPI = new PythonApi(this, ".py");
+            CSharpAPI csAPI = new CSharpAPI(this, ".cs");
 
             //Collect apis together
             List<baseAPI> apiStack = new List<baseAPI>();

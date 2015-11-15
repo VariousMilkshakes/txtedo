@@ -85,6 +85,9 @@ namespace txtedo.Module.Control
                 case "python":
                     this.selectedAPI = apiStack[0];
                     break;
+                case "c#":
+                    this.selectedAPI = apiStack[0];  
+                    break;
             }
 
             this.selectedAPI.setTriggerHandler(this);

@@ -90,6 +90,7 @@ namespace txtedo.ViewModel
             currentCommand = "";
 
             //Collect modules into dictionary
+            
             this.dict = new Dictionary(apis);
 
             this.tran = new Translator(dict, apis);
