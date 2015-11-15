@@ -44,7 +44,7 @@ namespace txtedo.ViewModel
         /// <summary>
         /// Notify UI of changed property
         /// </summary>
-        public event PropertyChangedEventHandler propChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Create api objects and setup for use
@@ -297,15 +297,15 @@ namespace txtedo.ViewModel
         /// </summary>
         private void RefreshAll()
         {
-            if (this.propChanged != null)
+            if (this.PropertyChanged != null)
             {
-                this.propChanged(this, new PropertyChangedEventArgs("TxtCommandInput"));
-                this.propChanged(this, new PropertyChangedEventArgs("lblPrompt"));
-                this.propChanged(this, new PropertyChangedEventArgs("Preview"));
-                this.propChanged(this, new PropertyChangedEventArgs("lblQuote"));
-                this.propChanged(this, new PropertyChangedEventArgs("WindowHeight"));
-                this.propChanged(this, new PropertyChangedEventArgs("PreviewHeight"));
-                this.propChanged(this, new PropertyChangedEventArgs("TopLock"));
+                this.PropertyChanged(this, new PropertyChangedEventArgs("TxtCommandInput"));
+                this.PropertyChanged(this, new PropertyChangedEventArgs("lblPrompt"));
+                this.PropertyChanged(this, new PropertyChangedEventArgs("Preview"));
+                this.PropertyChanged(this, new PropertyChangedEventArgs("lblQuote"));
+                this.PropertyChanged(this, new PropertyChangedEventArgs("WindowHeight"));
+                this.PropertyChanged(this, new PropertyChangedEventArgs("PreviewHeight"));
+                this.PropertyChanged(this, new PropertyChangedEventArgs("TopLock"));
             }
         }
 
@@ -315,9 +315,9 @@ namespace txtedo.ViewModel
         /// <param name="element">Target Element</param>
         private void Refresh(string element)
         {
-            if (this.propChanged != null)
+            if (this.PropertyChanged != null)
             {
-                this.propChanged(this, new PropertyChangedEventArgs(element));
+                this.PropertyChanged(this, new PropertyChangedEventArgs(element));
             }
         }
 
