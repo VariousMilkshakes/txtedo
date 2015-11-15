@@ -59,10 +59,11 @@
     <StartupObject>txtedo.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>B5B0F79CE1FFCF75E90A65D474211B3AA3758622</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>AD62595EC65ACD6D32CF1C6C15B1B279FCAB3E70</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>txtedo_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>

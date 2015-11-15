@@ -244,7 +244,7 @@ namespace txtedo.ViewModel
                     height /= 2;
                 }
 
-                return height;
+                return (int)height;
             }
         }
 
