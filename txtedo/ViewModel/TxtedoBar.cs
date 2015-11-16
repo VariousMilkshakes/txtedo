@@ -278,8 +278,8 @@ namespace txtedo.ViewModel
                             tempCommand = this.tran.GetFrom(new List<PreviewItem>(preview), thisCommand, this.runningCommand.childCommands);
                         }
 
-                        //If no matches can be found stop
-                        if (tempCommand == null)
+                        //If no matches can be found stop is user inputting option?
+                        if (tempCommand == null && !this.runningCommand.hasQuery)
                         {
                             //None existent child command is used
                             //Reset preview
@@ -287,7 +287,7 @@ namespace txtedo.ViewModel
                             return;
                         }
                         //If the found command has children
-                        else if (tempCommand.childCommands.Count > 0)
+                        else if (tempCommand != null && tempCommand.childCommands.Count > 0)
                         {
                             //Show children
                             preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn("", tempCommand.childCommands));
@@ -298,23 +298,25 @@ namespace txtedo.ViewModel
                         //Next input must be option
                         else
                         {
-                            this.runningCommand = tempCommand;
+                            //this.runningCommand = tempCommand;
 
-                            if (this.runningCommand.hasQuery)
-                            {
-                                //Clear prompts
-                                preview = null;
+                            SendCommand();
 
-                                visiblePrompt = this.runningCommand.command;
+                            //if (this.runningCommand.hasQuery)
+                            //{
+                            //    //Clear prompts
+                            //    preview = null;
+
+                            //    visiblePrompt = this.runningCommand.command;
 
                                 
-                                commandStack.Add(this.runningCommand);
-                            }
-                            else
-                            {
-                                //Run module with no query
-                                SendCommand();
-                            }
+                            //    //commandStack.Add(this.runningCommand);
+                            //}
+                            //else
+                            //{
+                            //    //Run module with no query
+                            //    SendCommand();
+                            //}
                         }
                     }
                 }

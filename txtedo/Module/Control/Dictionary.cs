@@ -79,16 +79,23 @@ namespace txtedo.Module.Control
                 List<Command> commandHolder = new List<Command>();
                 List<YoungChild> lostChildren = new List<YoungChild>();
 
-                modules.Web web = new Web();
+                IEnumerable<System.Type> modules = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(assembly => assembly.GetTypes())
+                    .Where(type => type.IsSubclassOf(typeof(ModuleBase)));
 
-                Command webCommand = new Command(web, web.Name, web.Desc, "c#", false, false);
-
-                commandHolder.Add(webCommand);
-
-                foreach (KeyValuePair<string, Func<string, string[]>> cmd in web.Commands)
+                foreach (System.Type type in modules)
                 {
-                    webCommand.NewChild(new Command(cmd.Value, cmd.Key, "Test", "c#", true, false));
+                    ModuleBase module = (ModuleBase)Activator.CreateInstance(type);
+
+                    Command command = new Command(module, module.Name, module.Desc, "c#", module.hasQuery, false);
+
+                    commandHolder.Add(command);
                 }
+
+                //foreach (KeyValuePair<string, Func<string, string[]>> cmd in web.Commands)
+                //{
+                //    webCommand.NewChild(new Command(cmd.Value, cmd.Key, "Test", "c#", true, false));
+                //}
 
                 
 

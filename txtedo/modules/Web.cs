@@ -1,6 +1,4 @@
-﻿
-
-namespace txtedo.modules
+﻿namespace txtedo.modules
 {
     class Web : Module.ModuleBase
     {
@@ -15,17 +13,33 @@ namespace txtedo.modules
             Desc = "Used to search Interwebz";
             string[] info = {Name, Desc};
 
-            AddCommand("Search", Search);
+            Seach SearchModule = new Seach();
+
+            AddCommand(SearchModule);
 
             return info;
         }
 
-        private string[] Search(string input)
+        private class Seach : Module.ModuleBase
         {
-            string[] Arr = new string[1];
+            public Seach()
+            {
+                Init();
+            }
 
+            public override string[] Init()
+            {
+                Name = "Search";
+                Desc = "Seach Google";
+                string[] info = { Name, Desc };
 
-            return Arr;
+                return info;
+            }
+
+            public override string[] OnRun()
+            {
+                throw new System.NotImplementedException();
+            }
         }
 
 

@@ -7,20 +7,22 @@ namespace txtedo.Module
     {
         public string Name; // Name of the Module e.g. "web"
         public string Desc; // Desc of the Module e.g. "Used to search interwebz"
-        public List<KeyValuePair<string, Func<string, string[]>>> Commands = new List<KeyValuePair<string, Func<string, string[]>>>(); // Look below
+        public bool hasQuery;
+        public List<KeyValuePair<string, ModuleBase>> Commands = new List<KeyValuePair<string, ModuleBase>>(); // Look below
                                                                             // Stores all related module commands, List of KeyValuePairs
                                                                             // Format: string (key), Function (Value)
                                                                             //                       Function takes string as an argument
                                                                             //                       Function Returns an array of strings
 
+
         public abstract string[] Init(); // Ran when the module is compiled
         public abstract string[] OnRun(); // Ran when the module is called by the user
 
-        public void AddCommand(string CmdName, Func<string, string[]> Callback ) // Universal method to add commands to module base
+        public void AddCommand(ModuleBase childModule) // Universal method to add commands to module base
         {
             try
             {
-                Commands.Add(new KeyValuePair<string, Func<string, string[]>>(CmdName, Callback));
+                Commands.Add(new KeyValuePair<string, ModuleBase>(childModule.Name, childModule));
             }
             catch (Exception)
             {
