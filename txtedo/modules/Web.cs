@@ -24,6 +24,7 @@
         {
             public Seach()
             {
+                Child();
                 Init();
             }
 

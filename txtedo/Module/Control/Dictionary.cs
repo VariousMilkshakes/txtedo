@@ -87,17 +87,18 @@ namespace txtedo.Module.Control
                 {
                     ModuleBase module = (ModuleBase)Activator.CreateInstance(type);
 
-                    Command command = new Command(module, module.Name, module.Desc, "c#", module.hasQuery, false);
+                    if (module.isParent && module.Commands.Count > 0)
+                    {
+                        Command command = new Command(module, module.Name, module.Desc, "c#", module.hasQuery, false);
 
-                    commandHolder.Add(command);
+                        commandHolder.Add(command);
+
+                        foreach (KeyValuePair<string, ModuleBase> cmd in module.Commands)
+                        {
+                            command.NewChild(new Command(cmd.Value, cmd.Key, "Test", "c#", true, false));
+                        }
+                    }
                 }
-
-                //foreach (KeyValuePair<string, Func<string, string[]>> cmd in web.Commands)
-                //{
-                //    webCommand.NewChild(new Command(cmd.Value, cmd.Key, "Test", "c#", true, false));
-                //}
-
-                
 
                 //Assign finished list to command dictionary
                 this.commands = commandHolder;

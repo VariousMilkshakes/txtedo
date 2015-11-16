@@ -8,6 +8,7 @@ namespace txtedo.Module
         public string Name; // Name of the Module e.g. "web"
         public string Desc; // Desc of the Module e.g. "Used to search interwebz"
         public bool hasQuery;
+        public bool isParent = true;
         public List<KeyValuePair<string, ModuleBase>> Commands = new List<KeyValuePair<string, ModuleBase>>(); // Look below
                                                                             // Stores all related module commands, List of KeyValuePairs
                                                                             // Format: string (key), Function (Value)
@@ -28,6 +29,11 @@ namespace txtedo.Module
             {
                 return;
             }
+        }
+
+        public void Child()
+        {
+            isParent = false;
         }
     }
 }
