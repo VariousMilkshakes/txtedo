@@ -15,16 +15,43 @@ namespace txtedo.Module
         //Tip displayed for user
         public string commandTip;
         public List<Command> childCommands = new List<Command>();
-        //Controller to invoke rules from
-        public dynamic module;
-        //Command triggers
-        public List<string> triggers;
         //Pass initial query
         public bool hasQuery;
         //Language of module
         public string language;
         //Async Module?
         public bool isAsync;
+
+        /// <summary>
+        /// A trigger will pause the module and wait for user feedback to continue returning void
+        /// </summary>
+        private Dictionary<string, Action<string>> Triggers = new Dictionary<string, Action<string>>();
+        /// <summary>
+        /// An event is run without user input and return void e.g. a callback for the translator
+        /// </summary>
+        private Dictionary<string, Action> Events = new Dictionary<string, Action>();
+
+        public Command (ModuleBase mb)
+        {
+            this.command = mb.Name;
+            
+            if (mb.Desc == "")
+            {
+                this.commandTip = this.command;
+            }
+            else
+            {
+                this.commandTip = mb.Desc;
+            }
+
+            this.hasQuery = mb.hasQuery;
+
+            this.Triggers = mb.Triggers;
+
+            this.Events = mb.Events;
+
+            this.language = "c#";
+        }
 
         public Command (dynamic script, string name, string tip, string lang, bool query, bool _async)
         {
@@ -38,8 +65,6 @@ namespace txtedo.Module
 
             this.commandTip = tip;
 
-            this.module = script;
-
             this.language = lang;
 
             this.hasQuery = query;
@@ -51,6 +76,30 @@ namespace txtedo.Module
         public void NewChild (Command child)
         {
             childCommands.Add(child);
+        }
+
+        public Action findEvent(string key)
+        {
+            if (this.Events.ContainsKey(key))
+            {
+                Action target = this.Events[key];
+
+                return target;
+            }
+
+            return null;
+        }
+
+        public Action<string> findTrigger(string key)
+        {
+            if (this.Triggers.ContainsKey(key))
+            {
+                Action<string> target = this.Triggers[key];
+
+                return target;
+            }
+
+            return null;
         }
     }
 

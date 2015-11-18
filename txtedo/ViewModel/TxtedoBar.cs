@@ -155,7 +155,7 @@ namespace txtedo.ViewModel
         /// <summary>
         /// Checks then sends current command to translator
         /// </summary>
-        public void SendCommand()
+        public void SendCommand(string options)
         {
 
             //Is there any commands to choose from? OR Is the user sending options
@@ -163,10 +163,10 @@ namespace txtedo.ViewModel
             {
 
                 //Check if module has finished successfully
-                bool finished = false;
+                bool finished = true;
 
                 //Send module to translator to run
-                finished = this.tran.Run(this.runningCommand, currentCommand);
+                this.tran.Run(this.runningCommand, options);
 
                 //Hide Txtedo Bar then rebind key binding
                 bgManager.Phase();
@@ -300,7 +300,7 @@ namespace txtedo.ViewModel
                         {
                             //this.runningCommand = tempCommand;
 
-                            SendCommand();
+                            SendCommand(thisCommand);
 
                             //if (this.runningCommand.hasQuery)
                             //{

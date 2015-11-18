@@ -104,23 +104,13 @@ namespace txtedo.Module.Control
         }
 
         //Run dynamic module from command
-        public bool Run(Command module, string options = "")
+        public void Run(Command module, string options = "")
         {
-            //Check if the python was successfull
-            bool isRunning = true;
+            Action<string> runner = module.findTrigger("run");
 
-            ModuleHandler currentModule = new ModuleHandler(module, this.apis);
+            if (runner == null) { return; }
 
-            currentModule.runModule(options);
-
-            while(isRunning)
-            {
-                isRunning = currentModule.running;
-                System.Threading.Thread.Sleep(250);
-                Console.WriteLine(currentModule.running);
-            }
-
-            return true;
+            runner.DynamicInvoke(options);
         }
 
         public List<PreviewItem> QueryAllIn(string command, List<Command> collection = null)

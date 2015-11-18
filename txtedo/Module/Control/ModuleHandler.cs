@@ -78,7 +78,6 @@ namespace txtedo.Module.Control
         {
             this.asyncModule = module.isAsync;
             this.needsQuery = module.hasQuery;
-            this.targetModule = module.module;
 
             switch (module.language)
             {

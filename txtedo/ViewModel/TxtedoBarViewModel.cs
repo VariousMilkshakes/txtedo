@@ -218,7 +218,7 @@ namespace txtedo.ViewModel
         private void SubmitCommand()
         {
             Console.WriteLine("Heard");
-            bar.SendCommand();
+            bar.SendCommand(bar.currentCommand);
 
             bar.currentCommand = "";
             bar.ChangeInput();

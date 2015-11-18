@@ -257,7 +257,7 @@ namespace txtedo.ViewModel
         /// </summary>
         private void SubmitCommand()
         {
-            this.tBar.SendCommand();
+            this.tBar.SendCommand(this.tBar.currentCommand);
 
             this.RefreshAll();
         }

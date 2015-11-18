@@ -89,7 +89,7 @@ namespace txtedo.Module.Control
 
                     if (module.isParent && module.Commands.Count > 0)
                     {
-                        Command command = new Command(module, module.Name, module.Desc, "c#", module.hasQuery, false);
+                        Command command = new Command(module);
 
                         commandHolder.Add(command);
 
