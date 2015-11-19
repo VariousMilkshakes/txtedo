@@ -27,6 +27,7 @@
 
                 Name = "Search";
                 Desc = "Seach Google";
+                hasQuery = true;
                 string[] info = { Name, Desc };
 
                 return info;

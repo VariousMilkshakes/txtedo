@@ -287,7 +287,7 @@ namespace txtedo.ViewModel
                             return;
                         }
                         //If the found command has children
-                        else if (tempCommand != null && tempCommand.childCommands.Count > 0)
+                        else if (tempCommand != null)
                         {
                             //Show children
                             preview = new ObservableCollection<PreviewItem>(this.tran.QueryAllIn("", tempCommand.childCommands));

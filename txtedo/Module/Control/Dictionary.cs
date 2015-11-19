@@ -95,7 +95,7 @@ namespace txtedo.Module.Control
 
                         foreach (KeyValuePair<string, ModuleBase> cmd in module.Commands)
                         {
-                            command.NewChild(new Command(cmd.Value, cmd.Key, "Test", "c#", true, false));
+                            command.NewChild(new Command(cmd.Value));
                         }
                     }
                 }
