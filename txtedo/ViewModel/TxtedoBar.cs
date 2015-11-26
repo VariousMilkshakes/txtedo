@@ -80,7 +80,7 @@ namespace txtedo.ViewModel
         /// Backend for UI operations
         /// </summary>
         /// <param name="apis">Stack of API for scripting languages</param>
-        public TxtedoBar(List<baseAPI> apis)
+        public TxtedoBar()
         {
 
             //Prompt on start up
@@ -91,9 +91,9 @@ namespace txtedo.ViewModel
 
             //Collect modules into dictionary
             
-            this.dict = new Dictionary(apis);
+            this.dict = new Dictionary();
 
-            this.tran = new Translator(dict, apis);
+            this.tran = new Translator(dict);
 
             //Display full list of commands
             preview = new ObservableCollection<PreviewItem>(this.tran.GetAll());

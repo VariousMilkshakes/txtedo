@@ -51,10 +51,8 @@ namespace txtedo.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            List<baseAPI> apiStack = new List<baseAPI>();
-
             //Construct objects
-            this.tBar = new TxtedoBar(apiStack);
+            this.tBar = new TxtedoBar();
             this.background = new Ghost();
             this.settings = new SettingsControl();
         }

@@ -36,7 +36,7 @@ namespace txtedo.Module.Control
             return Directory.GetDirectories(path);
         }
 
-        public Dictionary (List<Control.API.baseAPI> apiStack)
+        public Dictionary ()
         {
             //Very rough loop through different apis
             //Won't work just best just to do one after another or assign threads

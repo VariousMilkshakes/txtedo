@@ -8,15 +8,13 @@ using txtedo.Properties;
 
 namespace txtedo.Module.Control.API
 {
-    public class PythonApi : baseAPI
+    public class PythonApi
     {
         public string fileExtention;
 
         private TxtedoBarViewModel uiControl;
 
         public PreviewItem ListItem;
-
-        private ModuleHandler tgh;
 
         public PythonApi (TxtedoBarViewModel viewModel, string extention)
         {
@@ -25,16 +23,6 @@ namespace txtedo.Module.Control.API
             fileExtention = extention;
 
             this.uiControl = viewModel;
-        }
-
-        public void setTriggerHandler(ModuleHandler mh)
-        {
-            this.tgh = mh;
-        }
-
-        public void stop()
-        {
-            this.tgh.stop();
         }
 
         public void start()

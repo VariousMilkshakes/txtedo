@@ -124,6 +124,7 @@
     <Compile Include="modules\Web.cs" />
     <Compile Include="Module\Control\API\Api.cs" />
     <Compile Include="Module\Control\API\baseAPI.cs" />
+    <Compile Include="Module\Control\API\coreAPI.cs" />
     <Compile Include="Module\Control\API\CSharpAPI.cs" />
     <Compile Include="Module\Control\API\PythonApi.cs" />
     <Compile Include="Module\Control\CommandPreview.cs" />

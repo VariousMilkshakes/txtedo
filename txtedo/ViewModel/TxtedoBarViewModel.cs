@@ -33,16 +33,7 @@ namespace txtedo.ViewModel
 
         public TxtedoBarViewModel ()
         {
-            //TODO: Create all api objects here then pass them down to dictionary
-            //APIs
-            PythonApi pyAPI = new PythonApi(this, ".py");
-            CSharpAPI csAPI = new CSharpAPI(this, ".cs");
-
-            //Collect apis together
-            List<baseAPI> apiStack = new List<baseAPI>();
-            apiStack.Add(pyAPI);
-
-            bar = new TxtedoBar(apiStack);
+            bar = new TxtedoBar();
 
             spooky = new Ghost();
             spooky.Bind(ChangeVisibility);

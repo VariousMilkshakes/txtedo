@@ -13,12 +13,9 @@ namespace txtedo.Module.Control
         private List<Command> masterList;
         private List<PreviewItem> previewList;
 
-        private List<Control.API.baseAPI> apis;
-
-        public Translator(Dictionary dictionary, List<Control.API.baseAPI> apiStack)
+        public Translator(Dictionary dictionary)
         {
             masterList = dictionary.commands;
-            this.apis = apiStack;
         }
 
         //Returns all parent commands in CommandPreview Format
