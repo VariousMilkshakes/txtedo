@@ -80,7 +80,7 @@ namespace txtedo.Module
 
         public Action findEvent(string key)
         {
-            if (this.Events.ContainsKey(key))
+            if (!this.Events.ContainsKey(key) && !this.Triggers.ContainsKey(key))
             {
                 Action target = this.Events[key];
 
@@ -92,7 +92,7 @@ namespace txtedo.Module
 
         public Action<string> findTrigger(string key)
         {
-            if (this.Triggers.ContainsKey(key))
+            if (!this.Events.ContainsKey(key) && !this.Triggers.ContainsKey(key))
             {
                 Action<string> target = this.Triggers[key];
 
