@@ -1,6 +1,6 @@
 # TxtedO
 
-Smart, slick and black
+Extendable command bar. Run commands without leaving the keyboard.
 
 ## Python API
 
